@@ -86,15 +86,24 @@ function Widget(props: WidgetProps) {
 
     return (
         <div className="sfua-widget">
-            <p>Collected to date <strong>${campaignData.collected / 100}</strong></p>
+            <div className="row justify-content-center text-center mb-6">
+                <div className="col-xl-8 col-lg-9">
+                    <h2 className="display-4 mx-xl-6">Форма Реєстрації</h2>
+                    <p className="lead">
+                        Collected to date <strong>${campaignData.collected / 100}</strong>
+                    </p>
+                </div>
+            </div>
             {tab ? tab.paid ? (
                 <div>
-                    <p>Thank you for supporting Ukraine! <br />💙&nbsp;💛 <br /><a href="#" onClick={handleDonationCancel}>Click here to make another contribution</a></p>
+                    <p>Дякуємо за Вашу реєстрацію! <br />💙&nbsp;💛 <br /><a href="#" onClick={handleDonationCancel}>Ви зробили важливий внесок в перемогу України,  зареєструвавшись на “#RUNFORUKRAINE - Run & Give Boots to Defenders”.</a></p>
                 </div>
             ) : (
-                <div>
-                    <p>Processing <a href="#" onClick={handleClickDonation}>your donation</a> in another window. <br /><a href="#" onClick={handleDonationCancel}>Click here to cancel</a>.
+                <div className="text-center">
+                    <p className="lead">Очікується <a href="#" onClick={handleClickDonation}>платіж</a> у новому вікні браузера.<br/> <em>Якщо нове віконце автоматично не відкрилося, натисніть ґудзик "Оплатити"</em>.
                     </p>
+                    <a href="#" className="m-1 btn btn-light" onClick={handleClickDonation}>Оплатити</a>
+                    <a href="#" className="m-1 btn btn-sm btn-light" onClick={handleDonationCancel}>Скасувати</a>
                 </div>
             ) : (
                 <div>
