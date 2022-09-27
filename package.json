@@ -22,7 +22,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:widget": "parcel build src/index.tsx --no-source-maps --no-minify -d public/widget && cp build/static/css/*.css public/widget/index.css"
+    "build:widget": "parcel build src/index.tsx --no-source-maps --no-minify -d public/widget && cp src/index.css public/widget/index.css"
   },
   "eslintConfig": {
     "extends": [
