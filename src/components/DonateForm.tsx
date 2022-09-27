@@ -24,6 +24,7 @@ function DonateForm(props: DonateFormProps) {
     const [memo, setMemo] = useState("");
     const [addNote, setAddNote] = useState(false);
     const [itemsSocks, setItemsSocks] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     const total = 60 + itemsSocks * 20;
 
@@ -33,6 +34,7 @@ function DonateForm(props: DonateFormProps) {
 
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
+        setLoading(true);
         if (step1done && step2done && step3done) {
             const inputData = {
                 campaign_slug: props.campaign,
@@ -61,7 +63,9 @@ function DonateForm(props: DonateFormProps) {
             };
             wave.post("/tab", inputData).then((result) => {
                 props.onTabCreated(result.data);
-            })
+            }).finally(() => {
+                setLoading(false);
+            });
         }
     }
 
@@ -252,7 +256,7 @@ function DonateForm(props: DonateFormProps) {
                         </div>
                         <div className="mt-3">
                             <div className='form-group text-center'>
-                                <button type="button" onClick={handleSubmit} className="btn btn-lg btn-primary btn-block mb-2" >Завершити реєстрацію</button>
+                                <button type="button" onClick={handleSubmit} className="btn btn-lg btn-primary btn-block mb-2" disabled={loading}>Завершити реєстрацію</button>
                             </div>
                             <div className="invoice-insights__payments-banner">
                                 <div className="icon-override wv-icon--payment-method--small wv-icon--payment-method--bank-payment"></div>
