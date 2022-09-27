@@ -86,14 +86,14 @@ function Widget(props: WidgetProps) {
 
     return (
         <div className="sfua-widget">
-            <div className="row justify-content-center text-center mb-6">
+            {/* <div className="row justify-content-center text-center mb-6">
                 <div className="col-xl-8 col-lg-9">
                     <h2 className="display-4 mx-xl-6">Форма Реєстрації</h2>
                     <p className="lead">
                         Collected to date <strong>${campaignData.collected / 100}</strong>
                     </p>
                 </div>
-            </div>
+            </div> */}
             {tab ? tab.paid ? (
                 <div>
                     <p>Дякуємо за Вашу реєстрацію! <br />💙&nbsp;💛 <br /><a href="#" onClick={handleDonationCancel}>Ви зробили важливий внесок в перемогу України,  зареєструвавшись на “#RUNFORUKRAINE - Run & Give Boots to Defenders”.</a></p>

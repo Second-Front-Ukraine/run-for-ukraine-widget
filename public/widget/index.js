@@ -5491,10 +5491,13 @@ var __assign = void 0 && (void 0).__assign || function () {
   return __assign.apply(this, arguments);
 };
 
+var REGISTRATION_PRODUCT_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIxNjg1MDQ=";
+var SOCKS_PRODUCT_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIxNjg1NDM=";
+
 function DonateForm(props) {
-  var _a = (0, _react.useState)(""),
-      amount = _a[0],
-      setAmount = _a[1];
+  var _a = (0, _react.useState)(0),
+      wizardStep = _a[0],
+      setWizardStep = _a[1];
 
   var _b = (0, _react.useState)(""),
       email = _b[0],
@@ -5505,159 +5508,468 @@ function DonateForm(props) {
       setFullname = _c[1];
 
   var _d = (0, _react.useState)(""),
-      memo = _d[0],
-      setMemo = _d[1];
+      addressLine1 = _d[0],
+      setAddressLine1 = _d[1];
 
-  var _e = (0, _react.useState)(false),
-      addNote = _e[0],
-      setAddNote = _e[1];
+  var _e = (0, _react.useState)(""),
+      addressLine2 = _e[0],
+      setAddressLine2 = _e[1];
 
-  var _f = (0, _react.useState)(false),
-      addIdentity = _f[0],
-      setAddIdentity = _f[1];
+  var _f = (0, _react.useState)(""),
+      addressCity = _f[0],
+      setAddressCity = _f[1];
+
+  var _g = (0, _react.useState)(""),
+      addressProvince = _g[0],
+      setAddressProvince = _g[1];
+
+  var _h = (0, _react.useState)("Canada"),
+      addressCountry = _h[0],
+      setAddressCountry = _h[1];
+
+  var _j = (0, _react.useState)(""),
+      addressCode = _j[0],
+      setAddressCode = _j[1];
+
+  var _k = (0, _react.useState)(""),
+      phoneNumber = _k[0],
+      setPhoneNumber = _k[1];
+
+  var _l = (0, _react.useState)(""),
+      memo = _l[0],
+      setMemo = _l[1];
+
+  var _m = (0, _react.useState)(false),
+      addNote = _m[0],
+      setAddNote = _m[1];
+
+  var _o = (0, _react.useState)(1),
+      itemsSocks = _o[0],
+      setItemsSocks = _o[1];
+
+  var total = 60 + itemsSocks * 20;
+  var step1done = !!email && !!fullName;
+  var step2done = step1done && !!addressLine1 && !!addressCity && !!addressCountry && !!addressProvince && !!addressCountry && !!phoneNumber;
+  var step3done = step1done && step2done && true;
 
   var handleSubmit = function handleSubmit(event) {
+    var _a;
+
     event.preventDefault();
-    var inputData = {
-      campaign_slug: props.campaign,
-      amount: parseInt((Number(amount) * 100).toString()),
-      email: email,
-      name: fullName,
-      comment: memo
-    };
 
-    _axiosInstances.wave.post("/tab", inputData).then(function (result) {
-      props.onTabCreated(result.data);
-    });
-  };
+    if (step1done && step2done && step3done) {
+      var inputData = {
+        campaign_slug: props.campaign,
+        email: email,
+        name: fullName,
+        comment: memo,
+        shipping_details: {
+          'addressLine1': addressLine1,
+          'addressLine2': addressLine2,
+          'city': addressCity,
+          'provinceCode': addressProvince,
+          'countryCode': 'CA',
+          'postalCode': '',
+          'phone': phoneNumber
+        },
+        products: (_a = {}, _a[REGISTRATION_PRODUCT_ID] = {
+          'quantity': 1,
+          'unitPrice': 6000
+        }, _a[SOCKS_PRODUCT_ID] = {
+          'quantity': itemsSocks,
+          'unitPrice': 2000
+        }, _a)
+      };
 
-  var handleAddIdentity = function handleAddIdentity(e) {
-    e.preventDefault();
-    setAddIdentity(true);
+      _axiosInstances.wave.post("/tab", inputData).then(function (result) {
+        props.onTabCreated(result.data);
+      });
+    }
   };
 
   var handleAddNote = function handleAddNote(e) {
     e.preventDefault();
-    setAddNote(true);
+    setAddNote(!addNote);
   };
 
-  var amountOptions = [25.00, null, 50.00, null, 100].map(function (amount) {
-    if (!amount) {
-      return ' | ';
-    }
-
-    var onClickHandler = function onClickHandler(e) {
-      e.preventDefault();
-      setAmount(amount.toString());
-    };
-
-    return (0, _jsxRuntime.jsxs)("a", __assign({
-      href: "#",
-      onClick: onClickHandler
-    }, {
-      children: ["$", amount.toLocaleString('en-CA')]
-    }));
-  });
-  return (0, _jsxRuntime.jsxs)("div", __assign({
-    className: "2fua-donate-form"
+  return (0, _jsxRuntime.jsxs)("form", __assign({
+    className: "wizard sw-main sw-theme-default"
   }, {
-    children: [(0, _jsxRuntime.jsx)("div", __assign({
-      className: 'sfua-donate-form__amount-select'
+    children: [(0, _jsxRuntime.jsxs)("ul", __assign({
+      className: "d-flex step-circles mb-5 justify-content-center nav nav-tabs step-anchor"
     }, {
-      children: (0, _jsxRuntime.jsx)("span", {
-        children: amountOptions
-      })
-    })), (0, _jsxRuntime.jsxs)("form", __assign({
-      onSubmit: handleSubmit
+      children: [(0, _jsxRuntime.jsx)("li", __assign({
+        className: wizardStep == 0 ? "nav-item active" : step1done ? "nav-item done" : "nav-item"
+      }, {
+        children: (0, _jsxRuntime.jsx)("button", __assign({
+          type: "button",
+          className: "nav-link btn",
+          onClick: function onClick() {
+            return setWizardStep(0);
+          }
+        }, {
+          children: "1"
+        }))
+      })), (0, _jsxRuntime.jsx)("li", __assign({
+        className: wizardStep == 1 ? "nav-item active" : step2done ? "nav-item done" : "nav-item"
+      }, {
+        children: (0, _jsxRuntime.jsx)("button", __assign({
+          type: "button",
+          className: "nav-link btn",
+          onClick: function onClick() {
+            return step1done && setWizardStep(1);
+          }
+        }, {
+          children: "2"
+        }))
+      })), (0, _jsxRuntime.jsx)("li", __assign({
+        className: wizardStep == 2 ? "nav-item active" : step3done ? "nav-item done" : "nav-item"
+      }, {
+        children: (0, _jsxRuntime.jsx)("button", __assign({
+          type: "button",
+          className: "nav-link btn",
+          onClick: function onClick() {
+            return step2done && setWizardStep(2);
+          }
+        }, {
+          children: "3"
+        }))
+      }))]
+    })), (0, _jsxRuntime.jsxs)("div", __assign({
+      className: "sw-container tab-content"
     }, {
-      children: [(0, _jsxRuntime.jsxs)("div", __assign({
-        className: "sfua-donate-form__input-box"
+      children: [(0, _jsxRuntime.jsx)("div", __assign({
+        id: "step-1",
+        className: wizardStep == 0 ? "active tab-pane step-content" : "tab-pane step-content"
       }, {
-        children: [(0, _jsxRuntime.jsx)("span", __assign({
-          className: "sfua-donate-form__input-box__prefix"
+        children: (0, _jsxRuntime.jsxs)("div", __assign({
+          className: "p-4"
         }, {
-          children: "CAD"
-        })), (0, _jsxRuntime.jsx)("input", {
-          type: "number",
-          name: "amount",
-          value: amount,
-          className: 'sfua-donate-form__input-box__large',
-          onChange: function onChange(e) {
-            return setAmount(e.target.value);
-          }
-        })]
-      })), !addIdentity || !addNote ? (0, _jsxRuntime.jsxs)("div", __assign({
-        className: 'sfua-donate-form__add'
+          children: [(0, _jsxRuntime.jsxs)("div", __assign({
+            className: "form-group"
+          }, {
+            children: [(0, _jsxRuntime.jsx)("label", __assign({
+              htmlFor: "register-name"
+            }, {
+              children: "\u0406\u043C\u02BC\u044F"
+            })), (0, _jsxRuntime.jsx)("input", {
+              type: "text",
+              name: "fullName",
+              id: "register-name",
+              className: "form-control",
+              value: fullName,
+              placeholder: "\u041D\u0430\u043F\u0438\u0448\u0456\u0442\u044C \u0412\u0430\u0448\u0435 \u0456\u043C'\u044F",
+              onChange: function onChange(e) {
+                return setFullname(e.target.value);
+              }
+            })]
+          })), (0, _jsxRuntime.jsxs)("div", __assign({
+            className: "form-group"
+          }, {
+            children: [(0, _jsxRuntime.jsx)("label", __assign({
+              htmlFor: "register-email"
+            }, {
+              children: "\u0410\u0434\u0440\u0435\u0441\u0430 \u0415\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u043E\u0457 \u041F\u043E\u0448\u0442\u0438"
+            })), (0, _jsxRuntime.jsx)("input", {
+              type: "text",
+              name: "email",
+              id: "register-email",
+              className: "form-control",
+              value: email,
+              placeholder: "you@yoursite.com",
+              onChange: function onChange(e) {
+                return setEmail(e.target.value);
+              }
+            })]
+          })), (0, _jsxRuntime.jsx)("button", __assign({
+            type: "button",
+            className: "btn btn-primary-2 sw-btn-next",
+            onClick: function onClick() {
+              return setWizardStep(1);
+            },
+            disabled: !email || !fullName
+          }, {
+            children: "\u0414\u0430\u043B\u0456"
+          }))]
+        }))
+      })), (0, _jsxRuntime.jsx)("div", __assign({
+        id: "step-2",
+        className: wizardStep == 1 ? "active tab-pane step-content" : "tab-pane step-content"
       }, {
-        children: [!addIdentity ? (0, _jsxRuntime.jsx)("a", __assign({
-          href: "#",
-          onClick: handleAddIdentity
+        children: (0, _jsxRuntime.jsxs)("div", __assign({
+          className: "p-4"
         }, {
-          children: "Include email to receive updates"
-        })) : null, addIdentity === addNote ? " | " : null, !addNote ? (0, _jsxRuntime.jsx)("a", __assign({
-          href: "#",
-          onClick: handleAddNote
-        }, {
-          children: "Add a note"
-        })) : null]
-      })) : null, addIdentity ? (0, _jsxRuntime.jsx)("div", __assign({
-        className: "sfua-donate-form__input-box"
+          children: [(0, _jsxRuntime.jsxs)("div", __assign({
+            className: "form-group"
+          }, {
+            children: [(0, _jsxRuntime.jsx)("label", __assign({
+              htmlFor: "register-email"
+            }, {
+              children: "\u041F\u043E\u0448\u0442\u043E\u0432\u0456 \u0414\u0435\u0442\u0430\u043B\u0456"
+            })), (0, _jsxRuntime.jsx)("input", {
+              type: "text",
+              name: "address-line-1",
+              id: "register-address-line-1",
+              className: "form-control",
+              value: addressLine1,
+              placeholder: "\u041D\u043E\u043C\u0435\u0440 \u0431\u0443\u0434\u0438\u043D\u043A\u0443 \u0456 \u0432\u0443\u043B\u0438\u0446\u044F",
+              onChange: function onChange(e) {
+                return setAddressLine1(e.target.value);
+              }
+            })]
+          })), (0, _jsxRuntime.jsx)("div", __assign({
+            className: "form-group"
+          }, {
+            children: (0, _jsxRuntime.jsx)("input", {
+              type: "text",
+              name: "address-line-2",
+              id: "register-address-line-2",
+              className: "form-control",
+              value: addressLine2,
+              placeholder: "\u041D\u043E\u043C\u0435\u0440 \u043A\u0432\u0430\u0440\u0442\u0438\u0440\u0438 (apt, suite, unit)",
+              onChange: function onChange(e) {
+                return setAddressLine2(e.target.value);
+              }
+            })
+          })), (0, _jsxRuntime.jsx)("div", __assign({
+            className: "form-group"
+          }, {
+            children: (0, _jsxRuntime.jsx)("input", {
+              type: "text",
+              name: "address-city",
+              id: "register-address-city",
+              className: "form-control",
+              value: addressCity,
+              placeholder: "\u041C\u0456\u0441\u0442\u043E",
+              onChange: function onChange(e) {
+                return setAddressCity(e.target.value);
+              }
+            })
+          })), (0, _jsxRuntime.jsx)("div", __assign({
+            className: "form-group"
+          }, {
+            children: (0, _jsxRuntime.jsx)("input", {
+              type: "text",
+              name: "address-province",
+              id: "register-address-province",
+              className: "form-control",
+              value: addressProvince,
+              placeholder: "\u041F\u0440\u043E\u0432\u0456\u043D\u0446\u0456\u044F",
+              onChange: function onChange(e) {
+                return setAddressProvince(e.target.value);
+              }
+            })
+          })), (0, _jsxRuntime.jsx)("div", __assign({
+            className: "form-group"
+          }, {
+            children: (0, _jsxRuntime.jsx)("input", {
+              type: "text",
+              name: "address-country",
+              id: "register-address-country",
+              className: "form-control",
+              value: 'Canada',
+              placeholder: "\u041A\u0440\u0430\u0457\u043D\u0430",
+              disabled: true,
+              onChange: function onChange(e) {
+                return setAddressCountry(e.target.value);
+              }
+            })
+          })), (0, _jsxRuntime.jsx)("div", __assign({
+            className: "form-group"
+          }, {
+            children: (0, _jsxRuntime.jsx)("input", {
+              type: "text",
+              name: "address-postal-code",
+              id: "register-postal-code",
+              className: "form-control",
+              value: addressCode,
+              placeholder: "\u041F\u043E\u0448\u0442\u043E\u0432\u0438\u0439 \u041A\u043E\u0434",
+              onChange: function onChange(e) {
+                return setAddressCode(e.target.value);
+              }
+            })
+          })), (0, _jsxRuntime.jsx)("div", __assign({
+            className: "form-group"
+          }, {
+            children: (0, _jsxRuntime.jsx)("input", {
+              type: "text",
+              name: "address-phone",
+              id: "register-phone",
+              className: "form-control",
+              value: phoneNumber,
+              placeholder: "\u041D\u043E\u043C\u0435\u0440 \u0442\u0435\u043B\u0435\u0444\u043E\u043D\u0443",
+              onChange: function onChange(e) {
+                return setPhoneNumber(e.target.value);
+              }
+            })
+          })), (0, _jsxRuntime.jsx)("button", __assign({
+            type: "button",
+            className: "btn btn-primary-2 sw-btn-next",
+            onClick: function onClick() {
+              return setWizardStep(2);
+            },
+            disabled: !addressLine1 || !addressCity || !addressCountry || !addressProvince || !phoneNumber
+          }, {
+            children: "\u0414\u0430\u043B\u0456"
+          }))]
+        }))
+      })), (0, _jsxRuntime.jsx)("div", __assign({
+        id: "step-3",
+        className: wizardStep == 2 ? "active tab-pane step-content" : "tab-pane step-content"
       }, {
-        children: (0, _jsxRuntime.jsx)("input", {
-          type: "text",
-          name: "email",
-          value: email,
-          placeholder: "Email (optional)",
-          onChange: function onChange(e) {
-            return setEmail(e.target.value);
-          }
-        })
-      })) : null, addIdentity ? (0, _jsxRuntime.jsx)("div", __assign({
-        className: "sfua-donate-form__input-box"
-      }, {
-        children: (0, _jsxRuntime.jsx)("input", {
-          type: "text",
-          name: "fullName",
-          value: fullName,
-          placeholder: "Full name (optional)",
-          onChange: function onChange(e) {
-            return setFullname(e.target.value);
-          }
-        })
-      })) : null, addNote ? (0, _jsxRuntime.jsx)("div", __assign({
-        className: "sfua-donate-form__input-box"
-      }, {
-        children: (0, _jsxRuntime.jsx)("textarea", {
-          name: "memo",
-          value: memo,
-          placeholder: "Note (optional)",
-          rows: 7,
-          onChange: function onChange(e) {
-            return setMemo(e.target.value);
-          }
-        })
-      })) : null, (0, _jsxRuntime.jsxs)("div", {
-        children: [(0, _jsxRuntime.jsxs)("div", __assign({
-          className: "invoice-insights__payments-banner"
+        children: (0, _jsxRuntime.jsxs)("div", __assign({
+          className: "p-4"
         }, {
-          children: [(0, _jsxRuntime.jsx)("div", {
-            className: "icon-override wv-icon--payment-method--small wv-icon--payment-method--bank-payment"
-          }), (0, _jsxRuntime.jsx)("div", {
-            className: "icon-override wv-icon--payment-method--small wv-icon--payment-method--cc-amex"
-          }), (0, _jsxRuntime.jsx)("div", {
-            className: "icon-override wv-icon--payment-method--small wv-icon--payment-method--cc-mastercard"
-          }), (0, _jsxRuntime.jsx)("div", {
-            className: "icon-override wv-icon--payment-method--small wv-icon--payment-method--cc-visa"
-          })]
-        })), (0, _jsxRuntime.jsx)("div", __assign({
-          className: 'sfua-donate-form__submit-alt'
-        }, {
-          children: (0, _jsxRuntime.jsx)("input", {
-            type: "submit",
-            value: "Donate"
-          })
-        }))]
-      })]
+          children: [(0, _jsxRuntime.jsx)("table", __assign({
+            className: "table table-hover"
+          }, {
+            children: (0, _jsxRuntime.jsxs)("tbody", {
+              children: [(0, _jsxRuntime.jsxs)("tr", {
+                children: [(0, _jsxRuntime.jsxs)("td", {
+                  children: [(0, _jsxRuntime.jsx)("strong", {
+                    children: "\u0421\u0442\u0430\u0440\u0442\u043E\u0432\u0438\u0439 \u0432\u043D\u0435\u0441\u043E\u043A"
+                  }), " ", (0, _jsxRuntime.jsx)("br", {}), " ", (0, _jsxRuntime.jsx)("small", {
+                    children: "\u0423\u0441\u0456 \u043A\u043E\u0448\u0442\u0438 \u0432\u0456\u0434 \u0432\u0430\u0448\u043E\u0457 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u0457 \u0431\u0443\u0434\u0443\u0442\u044C \u0441\u043F\u0440\u044F\u043C\u043E\u0432\u0430\u043D\u0456 \u043D\u0430 \u0437\u0430\u043A\u0443\u043F\u0456\u0432\u043B\u044E \u0437\u0438\u043C\u043E\u0432\u043E\u0433\u043E \u0432\u0437\u0443\u0442\u0442\u044F \u0434\u043B\u044F \u0443\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0438\u0445 \u0437\u0430\u0445\u0438\u0441\u043D\u0438\u043A\u0456\u0432"
+                  })]
+                }), (0, _jsxRuntime.jsx)("td", {
+                  children: "$60"
+                })]
+              }), itemsSocks > 0 ? (0, _jsxRuntime.jsxs)("tr", {
+                children: [(0, _jsxRuntime.jsx)("td", {
+                  children: (0, _jsxRuntime.jsxs)("strong", {
+                    children: ["\u0412\u0456\u0439\u0441\u044C\u043A\u043E\u0432\u0456 \u0448\u043A\u0430\u0440\u043F\u0435\u0442\u043A\u0438 ", itemsSocks > 1 ? "(x".concat(itemsSocks, ")") : ""]
+                  })
+                }), (0, _jsxRuntime.jsxs)("td", {
+                  children: ["$", itemsSocks * 20]
+                })]
+              }) : null]
+            })
+          })), (0, _jsxRuntime.jsxs)("div", {
+            children: [(0, _jsxRuntime.jsxs)("label", __assign({
+              htmlFor: "register-socks"
+            }, {
+              children: ["\uD83E\uDDE6 \u0414\u043E\u0434\u0430\u0442\u0438 \u0432\u0456\u0439\u0441\u044C\u043A\u043E\u0432\u0456 \u0448\u043A\u0430\u0440\u043F\u0435\u0442\u043A\u0438? \u0412\u0438\u0440\u043E\u0431\u043D\u0438\u043A \u043F\u0440\u043E\u0444\u0435\u0441\u0456\u0439\u043D\u0438\u0445 \u0432\u0456\u0439\u0441\u044C\u043A\u043E\u0432\u0438\u0445 \u0448\u043A\u0430\u0440\u043F\u0435\u0442\u043E\u043A ", (0, _jsxRuntime.jsx)("a", __assign({
+                href: "https://covertthreads.com",
+                target: "_blank"
+              }, {
+                children: "Covert Threads (USA)"
+              })), " \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u0443\u0454 \u0423\u043A\u0440\u0430\u0457\u043D\u0443 \u0456 \u043D\u0430\u0434\u0430\u0454 \u043D\u0430\u043C \u0441\u0443\u0442\u0442\u0454\u0432\u0443 \u0437\u043D\u0438\u0436\u043A\u0443 (\u043F\u043E \u0441\u043E\u0431\u0456\u0432\u0430\u0440\u0442\u043E\u0441\u0442\u0456). \u041E\u0434\u043D\u0430 \u043F\u0430\u0440\u0430 \u044F\u043A\u0456\u0441\u043D\u0438\u0445 \u0448\u043A\u0430\u0440\u043F\u0435\u0442\u043E\u043A \u0437 \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u043E\u044E $20"]
+            })), (0, _jsxRuntime.jsx)("input", {
+              type: "range",
+              className: "custom-range",
+              id: "register-socks",
+              min: 0,
+              max: 10,
+              value: itemsSocks,
+              onChange: function onChange(e) {
+                return setItemsSocks(parseInt(e.target.value));
+              }
+            })]
+          }), (0, _jsxRuntime.jsxs)("div", __assign({
+            className: "custom-range-labels"
+          }, {
+            children: [(0, _jsxRuntime.jsx)("span", {
+              children: "0"
+            }), (0, _jsxRuntime.jsx)("span", {
+              children: "1"
+            }), (0, _jsxRuntime.jsx)("span", {
+              children: "2"
+            }), (0, _jsxRuntime.jsx)("span", {
+              children: "3"
+            }), (0, _jsxRuntime.jsx)("span", {
+              children: "4"
+            }), (0, _jsxRuntime.jsx)("span", {
+              children: "5"
+            }), (0, _jsxRuntime.jsx)("span", {
+              children: "6"
+            }), (0, _jsxRuntime.jsx)("span", {
+              children: "7"
+            }), (0, _jsxRuntime.jsx)("span", {
+              children: "8"
+            }), (0, _jsxRuntime.jsx)("span", {
+              children: "9"
+            }), (0, _jsxRuntime.jsx)("span", {
+              children: "10"
+            })]
+          })), addNote ? (0, _jsxRuntime.jsxs)("div", __assign({
+            className: "form-group mt-2"
+          }, {
+            children: [(0, _jsxRuntime.jsxs)("label", __assign({
+              htmlFor: "register-memo"
+            }, {
+              children: ["\u041A\u043E\u043C\u0435\u043D\u0442\u0430\u0440 (", (0, _jsxRuntime.jsx)("a", __assign({
+                href: "#",
+                onClick: handleAddNote
+              }, {
+                children: "\u0442\u0430 \u043D\u0456"
+              })), ")"]
+            })), (0, _jsxRuntime.jsx)("textarea", {
+              name: "memo",
+              id: "register-memo",
+              className: "form-control",
+              value: memo,
+              placeholder: "\u0417\u0430\u043B\u0438\u0448\u0442\u0435 \u043A\u043E\u043C\u0435\u043D\u0442\u0430\u0440 \u0434\u043B\u044F \u0414\u0440\u0443\u0433\u043E\u0433\u043E \u0424\u0440\u043E\u043D\u0442\u0443 (\u0437\u0430 \u0431\u0430\u0436\u0430\u043D\u043D\u044F\u043C)",
+              rows: 7,
+              onChange: function onChange(e) {
+                return setMemo(e.target.value);
+              }
+            })]
+          })) : (0, _jsxRuntime.jsx)("div", __assign({
+            className: "mt-2"
+          }, {
+            children: (0, _jsxRuntime.jsx)("a", __assign({
+              href: "#",
+              onClick: handleAddNote
+            }, {
+              children: "\u041F\u0440\u0438\u043A\u0440\u0456\u043F\u0438\u0442\u0438 \u043A\u043E\u043C\u0435\u043D\u0442\u0430\u0440?"
+            }))
+          })), (0, _jsxRuntime.jsx)("div", __assign({
+            className: "mt-4"
+          }, {
+            children: (0, _jsxRuntime.jsxs)("p", __assign({
+              className: "lead"
+            }, {
+              children: [(0, _jsxRuntime.jsxs)("strong", {
+                children: ["\u0423\u0441\u044C\u043E\u0433\u043E \u0434\u043E \u043E\u043F\u043B\u0430\u0442\u0438: $", total]
+              }), (0, _jsxRuntime.jsx)("br", {})]
+            }))
+          })), (0, _jsxRuntime.jsxs)("div", __assign({
+            className: "mt-3"
+          }, {
+            children: [(0, _jsxRuntime.jsx)("div", __assign({
+              className: 'form-group text-center'
+            }, {
+              children: (0, _jsxRuntime.jsx)("button", __assign({
+                type: "button",
+                onClick: handleSubmit,
+                className: "btn btn-lg btn-primary btn-block mb-2"
+              }, {
+                children: "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u0438 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u044E"
+              }))
+            })), (0, _jsxRuntime.jsxs)("div", __assign({
+              className: "invoice-insights__payments-banner"
+            }, {
+              children: [(0, _jsxRuntime.jsx)("div", {
+                className: "icon-override wv-icon--payment-method--small wv-icon--payment-method--bank-payment"
+              }), (0, _jsxRuntime.jsx)("div", {
+                className: "icon-override wv-icon--payment-method--small wv-icon--payment-method--cc-amex"
+              }), (0, _jsxRuntime.jsx)("div", {
+                className: "icon-override wv-icon--payment-method--small wv-icon--payment-method--cc-mastercard"
+              }), (0, _jsxRuntime.jsx)("div", {
+                className: "icon-override wv-icon--payment-method--small wv-icon--payment-method--cc-visa"
+              })]
+            })), (0, _jsxRuntime.jsx)("div", __assign({
+              className: "text-center"
+            }, {
+              children: (0, _jsxRuntime.jsx)("p", {
+                children: (0, _jsxRuntime.jsx)("small", {
+                  children: "\u0423\u0441\u0456 \u0446\u0456\u043D\u0438 \u0432\u043A\u0430\u0437\u0430\u043D\u0456 \u0432 \u041A\u0430\u043D\u0430\u0434\u0441\u044C\u043A\u0438\u0445 \u0414\u043E\u043B\u0430\u0440\u0430\u0445 (CAD)"
+                })
+              })
+            }))]
+          }))]
+        }))
+      }))]
     }))]
   }));
 }
@@ -5781,42 +6093,51 @@ function Widget(props) {
     }
   };
 
-  return (0, _jsxRuntime.jsxs)("div", __assign({
+  return (0, _jsxRuntime.jsx)("div", __assign({
     className: "sfua-widget"
   }, {
-    children: [(0, _jsxRuntime.jsxs)("p", {
-      children: ["Collected to date ", (0, _jsxRuntime.jsxs)("strong", {
-        children: ["$", campaignData.collected / 100]
-      })]
-    }), tab ? tab.paid ? (0, _jsxRuntime.jsx)("div", {
+    children: tab ? tab.paid ? (0, _jsxRuntime.jsx)("div", {
       children: (0, _jsxRuntime.jsxs)("p", {
-        children: ["Thank you for supporting Ukraine! ", (0, _jsxRuntime.jsx)("br", {}), "\uD83D\uDC99\xA0\uD83D\uDC9B ", (0, _jsxRuntime.jsx)("br", {}), (0, _jsxRuntime.jsx)("a", __assign({
+        children: ["\u0414\u044F\u043A\u0443\u0454\u043C\u043E \u0437\u0430 \u0412\u0430\u0448\u0443 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u044E! ", (0, _jsxRuntime.jsx)("br", {}), "\uD83D\uDC99\xA0\uD83D\uDC9B ", (0, _jsxRuntime.jsx)("br", {}), (0, _jsxRuntime.jsx)("a", __assign({
           href: "#",
           onClick: handleDonationCancel
         }, {
-          children: "Click here to make another contribution"
+          children: "\u0412\u0438 \u0437\u0440\u043E\u0431\u0438\u043B\u0438 \u0432\u0430\u0436\u043B\u0438\u0432\u0438\u0439 \u0432\u043D\u0435\u0441\u043E\u043A \u0432 \u043F\u0435\u0440\u0435\u043C\u043E\u0433\u0443 \u0423\u043A\u0440\u0430\u0457\u043D\u0438,  \u0437\u0430\u0440\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0432\u0448\u0438\u0441\u044C \u043D\u0430 \u201C#RUNFORUKRAINE - Run & Give Boots to Defenders\u201D."
         }))]
       })
-    }) : (0, _jsxRuntime.jsx)("div", {
-      children: (0, _jsxRuntime.jsxs)("p", {
-        children: ["Processing ", (0, _jsxRuntime.jsx)("a", __assign({
+    }) : (0, _jsxRuntime.jsxs)("div", __assign({
+      className: "text-center"
+    }, {
+      children: [(0, _jsxRuntime.jsxs)("p", __assign({
+        className: "lead"
+      }, {
+        children: ["\u041E\u0447\u0456\u043A\u0443\u0454\u0442\u044C\u0441\u044F ", (0, _jsxRuntime.jsx)("a", __assign({
           href: "#",
           onClick: handleClickDonation
         }, {
-          children: "your donation"
-        })), " in another window. ", (0, _jsxRuntime.jsx)("br", {}), (0, _jsxRuntime.jsx)("a", __assign({
-          href: "#",
-          onClick: handleDonationCancel
-        }, {
-          children: "Click here to cancel"
-        })), "."]
-      })
-    }) : (0, _jsxRuntime.jsx)("div", {
+          children: "\u043F\u043B\u0430\u0442\u0456\u0436"
+        })), " \u0443 \u043D\u043E\u0432\u043E\u043C\u0443 \u0432\u0456\u043A\u043D\u0456 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430.", (0, _jsxRuntime.jsx)("br", {}), " ", (0, _jsxRuntime.jsx)("em", {
+          children: "\u042F\u043A\u0449\u043E \u043D\u043E\u0432\u0435 \u0432\u0456\u043A\u043E\u043D\u0446\u0435 \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E \u043D\u0435 \u0432\u0456\u0434\u043A\u0440\u0438\u043B\u043E\u0441\u044F, \u043D\u0430\u0442\u0438\u0441\u043D\u0456\u0442\u044C \u0491\u0443\u0434\u0437\u0438\u043A \"\u041E\u043F\u043B\u0430\u0442\u0438\u0442\u0438\""
+        }), "."]
+      })), (0, _jsxRuntime.jsx)("a", __assign({
+        href: "#",
+        className: "m-1 btn btn-light",
+        onClick: handleClickDonation
+      }, {
+        children: "\u041E\u043F\u043B\u0430\u0442\u0438\u0442\u0438"
+      })), (0, _jsxRuntime.jsx)("a", __assign({
+        href: "#",
+        className: "m-1 btn btn-sm btn-light",
+        onClick: handleDonationCancel
+      }, {
+        children: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438"
+      }))]
+    })) : (0, _jsxRuntime.jsx)("div", {
       children: (0, _jsxRuntime.jsx)(_DonateForm.default, {
         campaign: props.campaign,
         onTabCreated: onTabCreated
       })
-    })]
+    })
   }));
 }
 
@@ -6027,25 +6348,7 @@ var _reportWebVitals = _interopRequireDefault(require("./reportWebVitals"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _a, _b;
-
-var campaign_anchor = document.getElementById("modal0");
-
-if (campaign_anchor) {
-  // Remove prelude
-  var el = (_a = document.getElementById("latest-news")) === null || _a === void 0 ? void 0 : _a.querySelector(".post-entry");
-
-  if (el) {
-    (_b = el.parentElement) === null || _b === void 0 ? void 0 : _b.removeChild(el);
-  } // Add donation form
-
-
-  if (campaign_anchor.parentElement) {
-    campaign_anchor.parentElement.innerHTML += '<div id="donate-widget-batt130" data-campaign="2FUA-BATT130" class="secondfront-donate-widget"></div>';
-  }
-}
-
-var widgetDivs = document.querySelectorAll('.secondfront-donate-widget');
+var widgetDivs = document.querySelectorAll('.run-registration-widget');
 widgetDivs.forEach(function (div) {
   _client.default.createRoot(div).render((0, _jsxRuntime.jsx)(_react.default.StrictMode, {
     children: (0, _jsxRuntime.jsx)(_App.default, {

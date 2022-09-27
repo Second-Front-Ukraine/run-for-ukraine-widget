@@ -83,7 +83,7 @@ function DonateForm(props: DonateFormProps) {
             </ul>
             <div className="sw-container tab-content">
                 <div id="step-1" className={wizardStep==0 ? "active tab-pane step-content" : "tab-pane step-content"}>
-                    <div className="p-4 bg-primary-alt">
+                    <div className="p-4">
                         <div className="form-group">
                             <label htmlFor="register-name">Імʼя</label>
                             <input
@@ -108,11 +108,11 @@ function DonateForm(props: DonateFormProps) {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <button type="button" className="btn btn-primary sw-btn-next" onClick={() => setWizardStep(1)} disabled={!email || !fullName}>Далі</button>
+                        <button type="button" className="btn btn-primary-2 sw-btn-next" onClick={() => setWizardStep(1)} disabled={!email || !fullName}>Далі</button>
                     </div>
                 </div>
                 <div id="step-2" className={wizardStep==1 ? "active tab-pane step-content" : "tab-pane step-content"}>
-                    <div className="p-4 bg-primary-alt">
+                    <div className="p-4">
                         <div className="form-group">
                             <label htmlFor="register-email">Поштові Деталі</label>
                             <input
@@ -192,11 +192,11 @@ function DonateForm(props: DonateFormProps) {
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                             />
                         </div>
-                        <button type="button" className="btn btn-primary sw-btn-next" onClick={() => setWizardStep(2)} disabled={!addressLine1 || !addressCity || !addressCountry || !addressProvince || !phoneNumber}>Далі</button>
+                        <button type="button" className="btn btn-primary-2 sw-btn-next" onClick={() => setWizardStep(2)} disabled={!addressLine1 || !addressCity || !addressCountry || !addressProvince || !phoneNumber}>Далі</button>
                     </div>
                 </div>
                 <div id="step-3" className={wizardStep==2 ? "active tab-pane step-content" : "tab-pane step-content"}>
-                    <div className="p-4 bg-primary-alt">
+                    <div className="p-4">
 
                         <table className="table table-hover">
                             <tbody>
