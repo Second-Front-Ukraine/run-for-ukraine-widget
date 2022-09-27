@@ -91,43 +91,6 @@ function Widget(props: WidgetProps) {
                     <p className="lead">Дякуємо за Вашу реєстрацію!</p>
                     <p className="lead">💙&nbsp;💛</p>
                     <h2>Погнали!</h2>
-                    <ol className="process-vertical">
-                        <li>
-                            <div className="process-circle bg-primary"></div>
-                            <div>
-                            <span className="text-small text-muted">1 Жовтня</span>
-                            <h5 className="mb-0">Початок забігу. Передаєм нашим що ми ПОГНАЛИ! (можна тегнути <a href="https://www.instagram.com/secondfrontua/">@secondfrontua</a> та <code>#RunForUkraine</code>)</h5>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="process-circle bg-primary"></div>
-                            <div>
-                            <span className="text-small text-muted">Десь у Жовтні</span>
-                            <h5 className="mb-0">Бігаємо вибрану дистанцію</h5>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="process-circle bg-primary"></div>
-                            <div>
-                            <span className="text-small text-muted">Десь після бігу</span>
-                            <h5 className="mb-0">Виклажаємо фоточки в соцмережі, не забуваємо тегнути <a href="https://www.instagram.com/secondfrontua/">@secondfrontua</a> та <code>#RunForUkraine</code></h5>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="process-circle bg-primary"></div>
-                            <div>
-                            <span className="text-small text-muted">31 Жовтня</span>
-                            <h5 className="mb-0">Фінішуємо, поки ми рахуємо і замовляємо берци і шкарпетки</h5>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="process-circle bg-primary-2"></div>
-                            <div>
-                            <span className="text-small text-muted">Листопад</span>
-                            <h5 className="mb-0">Ми висилаємо захисникам тепле взуття і шкарпетки. Перемога не за горами!</h5>
-                            </div>
-                        </li>
-                    </ol>
                 </div>
             ) : (
                 <div className="text-center">
