@@ -91,6 +91,7 @@ function Widget(props: WidgetProps) {
                     <p className="lead">Дякуємо за Вашу реєстрацію!</p>
                     <p className="lead">💙&nbsp;💛</p>
                     <h2>Погнали!</h2>
+                    <small><a href="#" className="m-1 btn btn-sm btn-light" onClick={handleDonationCancel}>Нова реєстрація</a></small>
                 </div>
             ) : (
                 <div className="text-center">
