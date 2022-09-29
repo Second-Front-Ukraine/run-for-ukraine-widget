@@ -12,20 +12,19 @@ const SOCKS_PRODUCT_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OT
 const DELIVERY_PRODUCT_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIyNzI1Mjg="
 
 const provinceOptions = [
-    // {"label": "Province", "value": undefined},
-    {"label": "Alberta (AB)", "value": "AB"},
-    {"label": "British Columbia (BC)", "value": "BC"},
-    {"label": "Manitoba (MB)", "value": "MB"},
-    {"label": "New Brunswick (NB)", "value": "NB"},
-    {"label": "Newfoundland and Labrador (NL)", "value": "NL"},
-    {"label": "Northwest Territories (NT)", "value": "NT"},
-    {"label": "Nova Scotia (NS)", "value": "NS"},
-    {"label": "Nunavut (NU)", "value": "NU"},
-    {"label": "Ontario (ON)", "value": "ON"},
-    {"label": "Prince Edward Island (PE)", "value": "PE"},
-    {"label": "Quebec (QC)", "value": "QC"},
-    {"label": "Saskatchewan (SK)", "value": "SK"},
-    {"label": "Yukon (YT)", "value": "YT"},
+    {"label": "Alberta (AB)", "value": "CA-AB"},
+    {"label": "British Columbia (BC)", "value": "CA-BC"},
+    {"label": "Manitoba (MB)", "value": "CA-MB"},
+    {"label": "New Brunswick (NB)", "value": "CA-NB"},
+    {"label": "Newfoundland and Labrador (NL)", "value": "CA-NL"},
+    {"label": "Northwest Territories (NT)", "value": "CA-NT"},
+    {"label": "Nova Scotia (NS)", "value": "CA-NS"},
+    {"label": "Nunavut (NU)", "value": "CA-NU"},
+    {"label": "Ontario (ON)", "value": "CA-ON"},
+    {"label": "Prince Edward Island (PE)", "value": "CA-PE"},
+    {"label": "Quebec (QC)", "value": "CA-QC"},
+    {"label": "Saskatchewan (SK)", "value": "CA-SK"},
+    {"label": "Yukon (YT)", "value": "CA-YT"},
 ]
 
 function DonateForm(props: DonateFormProps) {
@@ -67,7 +66,7 @@ function DonateForm(props: DonateFormProps) {
                     'city': addressCity,
                     'provinceCode': addressProvince,
                     'countryCode': 'CA',
-                    'postalCode': '',
+                    'postalCode': addressCode,
                     'phone': phoneNumber,
                 },
                 products: {
