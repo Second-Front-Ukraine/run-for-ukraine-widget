@@ -153,7 +153,7 @@ function DonateForm(props: DonateFormProps) {
                 <div id="step-1" className={wizardStep == 0 ? "active tab-pane step-content" : "tab-pane step-content"}>
 
                     <div className="row justify-content-around o-hidden o-lg-visible">
-                        <div className="col-xl-6 col-lg-6 col-md-6 mb-lg-n7 layer-2" data-aos="fade-left">
+                        <div className="col-xl-6 col-lg-6 col-md-6" data-aos="fade-left">
                             <h3 className="h2">Реєстрація</h3>
                             <p className="lead">
                                 100% коштів від реєстрації на “#RunForUkraine - Give Boots to 🇺🇦Defenders” будуть спрямовані на закупівлю
@@ -204,7 +204,7 @@ function DonateForm(props: DonateFormProps) {
                 <div id="step-2" className={wizardStep == 1 ? "active tab-pane step-content" : "tab-pane step-content"}>
 
                     <div className="row justify-content-around o-hidden o-lg-visible">
-                        <div className="col-xl-6 col-lg-6 col-md-6 mb-lg-n7 layer-2" data-aos="fade-left">
+                        <div className="col-xl-6 col-lg-6 col-md-6" data-aos="fade-left">
                             <p className="lead">
                                 Кожен з учасників, зареєстрованих в пробізі, отримає унікальну медаль прямісенько до себе додому протягом 4 тижнів після реєстрації.
                             </p>
@@ -311,7 +311,7 @@ function DonateForm(props: DonateFormProps) {
                 <div id="step-3" className={wizardStep == 2 ? "active tab-pane step-content" : "tab-pane step-content"}>
 
                     <div className="row justify-content-around o-hidden o-lg-visible">
-                        <div className="col-xl-4 col-lg-5 col-md-6 mb-lg-n7 layer-2" data-aos="fade-left">
+                        <div className="col-xl-4 col-lg-5 col-md-6" data-aos="fade-left">
 
                             <img src="assets/products/boots-and-socks5.jpg" alt="Image" className="rounded"></img>
                         </div>
