@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import internal from 'stream';
 import { wave } from '../axiosInstances';
+import { COUNTRIES } from '../geography';
 
 export interface DonateFormProps {
     campaign: string;
@@ -16,21 +17,6 @@ const TEE_LARGE_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2OD
 const TEE_MEDIUM_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzI="
 const TEE_SMALL_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzE="
 
-const provinceOptions = [
-    { "label": "Alberta (AB)", "value": "CA-AB" },
-    { "label": "British Columbia (BC)", "value": "CA-BC" },
-    { "label": "Manitoba (MB)", "value": "CA-MB" },
-    { "label": "New Brunswick (NB)", "value": "CA-NB" },
-    { "label": "Newfoundland and Labrador (NL)", "value": "CA-NL" },
-    { "label": "Northwest Territories (NT)", "value": "CA-NT" },
-    { "label": "Nova Scotia (NS)", "value": "CA-NS" },
-    { "label": "Nunavut (NU)", "value": "CA-NU" },
-    { "label": "Ontario (ON)", "value": "CA-ON" },
-    { "label": "Prince Edward Island (PE)", "value": "CA-PE" },
-    { "label": "Quebec (QC)", "value": "CA-QC" },
-    { "label": "Saskatchewan (SK)", "value": "CA-SK" },
-    { "label": "Yukon (YT)", "value": "CA-YT" },
-]
 
 function DonateForm(props: DonateFormProps) {
     const [wizardStep, setWizardStep] = useState(0);
@@ -40,7 +26,7 @@ function DonateForm(props: DonateFormProps) {
     const [addressLine2, setAddressLine2] = useState("");
     const [addressCity, setAddressCity] = useState("");
     const [addressProvince, setAddressProvince]: [string | undefined, any] = useState(undefined);
-    const [addressCountry, setAddressCountry] = useState("Canada");
+    const [addressCountry, setAddressCountry] = useState("CA");
     const [addressCode, setAddressCode] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [memo, setMemo] = useState("");
@@ -51,6 +37,8 @@ function DonateForm(props: DonateFormProps) {
     const [itemsTeeMedium, setItemsTeeMedium] = useState(0);
     const [itemsTeeLarge, setItemsTeeLarge] = useState(0);
     const [loading, setLoading] = useState(false);
+
+    const provinceOptions = COUNTRIES[addressCountry as keyof typeof COUNTRIES].provinces;
 
     const totalStep3 = 60 + itemsExtraBoots * 60 + itemsSocks * 20;
     const total = Math.round((totalStep3 + (itemsTeeSmall + itemsTeeMedium + itemsTeeLarge) * 39.99 + 10) * 100) / 100;
@@ -74,7 +62,7 @@ function DonateForm(props: DonateFormProps) {
                     'addressLine2': addressLine2,
                     'city': addressCity,
                     'provinceCode': addressProvince,
-                    'countryCode': 'CA',
+                    'countryCode': addressCountry,
                     'postalCode': addressCode,
                     'phone': phoneNumber,
                 },
@@ -104,8 +92,12 @@ function DonateForm(props: DonateFormProps) {
                         'unitPrice': 3999,
                     },
                     [DELIVERY_CANADA_PRODUCT_ID]: {
-                        'quantity': 1,
+                        'quantity': addressCountry == "CA" ? 1 : 0,
                         'unitPrice': 1000,
+                    },
+                    [DELIVERY_OUTSIDE_CANADA_ID]: {
+                        'quantity': addressCountry == "CA" ? 0 : 1,
+                        'unitPrice': 2000,
                     },
                 },
             };
@@ -213,28 +205,20 @@ function DonateForm(props: DonateFormProps) {
                         <div className="col-xl-5 col-md-6 mb-4 mb-md-0" data-aos="fade">
                             <div className="form-group">
                                 <label htmlFor="register-address-country">Поштові Деталі</label>
-                                <input
-                                    type="text"
-                                    name="address-country"
+                                <select
+                                    className="custom-select"
                                     id="register-address-country"
-                                    className="form-control"
-                                    value={'Canada'}
-                                    placeholder="Країна"
-                                    disabled
+                                    value={addressCountry}
+                                    placeholder={"Country"}
                                     onChange={(e) => setAddressCountry(e.target.value)}
-                                />
+                                >
+                                    {Object.entries(COUNTRIES as { [code: string]: { code: string, name: string } }).map(
+                                        ([key, country], i) => {
+                                            return <option selected={addressCountry === country.code} value={country.code}>{country.name}</option>;
+                                        })}
+                                </select>
+                                <img className="icon" src="assets/img/icons/interface/arrow-caret.svg" alt="arrow-caret interface icon" data-inject-svg />
                             </div>
-                            {/* <div className="form-group">
-                            <input
-                                type="text"
-                                name="address-province"
-                                id="register-address-province"
-                                className="form-control"
-                                value={addressProvince}
-                                placeholder="Провінція"
-                                onChange={(e) => setAddressProvince(e.target.value)}
-                            />
-                        </div> */}
                             <div className="form-group">
                                 <select
                                     className="custom-select"
@@ -242,8 +226,8 @@ function DonateForm(props: DonateFormProps) {
                                     placeholder={"Province"}
                                     onChange={(e) => setAddressProvince(e.target.value)}
                                 >
-                                    {provinceOptions.map((province) => {
-                                        return <option selected={addressProvince === province.value} value={province.value}>{province.label}</option>;
+                                    {provinceOptions.map((province: { code: string, name: string }) => {
+                                        return <option selected={addressProvince === province.code} value={province.code}>{province.name}</option>;
                                     })}
                                 </select>
                                 <img className="icon" src="assets/img/icons/interface/arrow-caret.svg" alt="arrow-caret interface icon" data-inject-svg />
@@ -294,7 +278,7 @@ function DonateForm(props: DonateFormProps) {
                             </div>
                             <div className="form-group">
                                 <input
-                                    type="text"
+                                    type="tel"
                                     name="address-phone"
                                     id="register-phone"
                                     className="form-control"
@@ -407,7 +391,7 @@ function DonateForm(props: DonateFormProps) {
                 </div>
                 <div id="step-4" className={wizardStep == 3 ? "active tab-pane step-content" : "tab-pane step-content"}>
                     <div className="row justify-content-around o-hidden o-lg-visible">
-                        <div className="col-xl-4 col-lg-5 col-md-6 mb-lg-n7 layer-2" data-aos="fade-left">
+                        <div className="col-xl-4 col-lg-5 col-md-6" data-aos="fade-left">
                             <div className="card card-icon-3 hover-shadow-3d rotate-right">
                                 <img src="assets/products/tee-promo.jpg" alt="Run for Ukraine t-shirt" className="card-img-top"></img>
 
@@ -419,9 +403,9 @@ function DonateForm(props: DonateFormProps) {
                                         <button type="button" className="m-1 btn btn-sm btn-primary-2" onClick={() => setItemsTeeLarge(itemsTeeLarge + 1)}>+ L</button>
                                     </div>
                                     <p className="">
-                                        Opt in for an iconic #RunForUkraine t-shirt
+                                        Opt in for an iconic <em>#RunForUkraine</em> t-shirt
                                         <ul>
-                                            <li>Official Second Front Merch</li>
+                                            <li><a href="https://shop.secondfrontukraine.com" target="_blank">Official Second Front Merch</a></li>
                                             <li>100% Polyester</li>
                                             <li>Design by Anton Masalov</li>
                                             <li>Color: yellow</li>
