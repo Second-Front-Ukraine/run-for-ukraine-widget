@@ -10,7 +10,7 @@ const widgetDivs = document.querySelectorAll('.run-registration-widget') as Node
 widgetDivs.forEach(div => {
   ReactDOM.createRoot(div).render(
     <React.StrictMode>
-      <App campaign={div.dataset.campaign || ''} />
+      <App campaign={div.dataset.campaign || ''} lang={div.dataset.lang || 'en'} />
     </React.StrictMode>
   );
 });
