@@ -94,11 +94,11 @@ function DonateForm(props: DonateFormProps) {
             'unitPrice': 3999,
           },
           [DELIVERY_CANADA_PRODUCT_ID]: {
-            'quantity': addressCountry == "CA" ? 1 : 0,
+            'quantity': addressCountry === "CA" ? 1 : 0,
             'unitPrice': 1000,
           },
           [DELIVERY_OUTSIDE_CANADA_ID]: {
-            'quantity': addressCountry == "CA" ? 0 : 1,
+            'quantity': addressCountry === "CA" ? 0 : 1,
             'unitPrice': 2000,
           },
         },
@@ -134,17 +134,17 @@ function DonateForm(props: DonateFormProps) {
   return (
     <form className="wizard sw-main sw-theme-default">
       <ul className="d-flex step-circles mb-5 justify-content-center nav nav-tabs step-anchor">
-        <li className={wizardStep == 0 ? "nav-item active" : step1done ? "nav-item done" : "nav-item"}><button type="button" className="nav-link btn" onClick={() => setWizardStep(0)}>1</button>
+        <li className={wizardStep === 0 ? "nav-item active" : step1done ? "nav-item done" : "nav-item"}><button type="button" className="nav-link btn" onClick={() => setWizardStep(0)}>1</button>
         </li>
-        <li className={wizardStep == 1 ? "nav-item active" : step2done ? "nav-item done" : "nav-item"}><button type="button" className="nav-link btn" onClick={() => step1done && setWizardStep(1)}>2</button>
+        <li className={wizardStep === 1 ? "nav-item active" : step2done ? "nav-item done" : "nav-item"}><button type="button" className="nav-link btn" onClick={() => step1done && setWizardStep(1)}>2</button>
         </li>
-        <li className={wizardStep == 2 ? "nav-item active" : step3done ? "nav-item done" : "nav-item"}><button type="button" className="nav-link btn" onClick={() => step2done && setWizardStep(2)}>3</button>
+        <li className={wizardStep === 2 ? "nav-item active" : step3done ? "nav-item done" : "nav-item"}><button type="button" className="nav-link btn" onClick={() => step2done && setWizardStep(2)}>3</button>
         </li>
-        <li className={wizardStep == 3 ? "nav-item active" : step3done ? "nav-item done" : "nav-item"}><button type="button" className="nav-link btn" onClick={() => step3done && setWizardStep(3)}>4</button>
+        <li className={wizardStep === 3 ? "nav-item active" : step3done ? "nav-item done" : "nav-item"}><button type="button" className="nav-link btn" onClick={() => step3done && setWizardStep(3)}>4</button>
         </li>
       </ul>
       <div className="sw-container tab-content">
-        <div id="step-1" className={wizardStep == 0 ? "active tab-pane step-content" : "tab-pane step-content"}>
+        <div id="step-1" className={wizardStep === 0 ? "active tab-pane step-content" : "tab-pane step-content"}>
 
           <div className="row justify-content-around o-hidden o-lg-visible">
             {lang === 'uk' ? (
@@ -190,19 +190,19 @@ function DonateForm(props: DonateFormProps) {
             )}
             <div className="col-xl-5 col-md-6 mb-4 mb-md-0" data-aos="fade">
               <div className="form-group">
-                <label htmlFor="register-name">Імʼя</label>
+                <label htmlFor="register-name">{lang === 'uk' ? "Імʼя" : "Name"}</label>
                 <input
                   type="text"
                   name="fullName"
                   id="register-name"
                   className="form-control form-control-lg"
                   value={fullName}
-                  placeholder="Напишіть Ваше ім'я"
+                  placeholder={lang === 'uk' ? "Напишіть Ваше ім'я" : "Type your name"}
                   onChange={(e) => setFullname(e.target.value)}
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="register-email">Адреса Електронної Пошти</label>
+                <label htmlFor="register-email">{lang === 'uk' ? "Адреса Електронної Пошти" : "Email"}</label>
                 <input
                   type="text"
                   name="email"
@@ -213,11 +213,11 @@ function DonateForm(props: DonateFormProps) {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              {step1done ? <button type="button" className="btn btn-primary-2 sw-btn-next" onClick={() => setWizardStep(1)} disabled={!step1done}>Далі</button> : null}
+              {step1done ? <button type="button" className="btn btn-primary-2 sw-btn-next" onClick={() => setWizardStep(1)} disabled={!step1done}>{lang === 'uk' ? "Далі" : "Next"}</button> : null}
             </div>
           </div>
         </div>
-        <div id="step-2" className={wizardStep == 1 ? "active tab-pane step-content" : "tab-pane step-content"}>
+        <div id="step-2" className={wizardStep === 1 ? "active tab-pane step-content" : "tab-pane step-content"}>
 
           <div className="row justify-content-around o-hidden o-lg-visible">
             <div className="col-xl-6 col-lg-6 col-md-6" data-aos="fade-left">
@@ -320,7 +320,7 @@ function DonateForm(props: DonateFormProps) {
           </div>
 
         </div>
-        <div id="step-3" className={wizardStep == 2 ? "active tab-pane step-content" : "tab-pane step-content"}>
+        <div id="step-3" className={wizardStep === 2 ? "active tab-pane step-content" : "tab-pane step-content"}>
 
           <div className="row justify-content-around o-hidden o-lg-visible">
             <div className="col-xl-4 col-lg-5 col-md-6" data-aos="fade-left">
@@ -425,7 +425,7 @@ function DonateForm(props: DonateFormProps) {
               </div>
               <div className="mt-3">
                 <div>
-                  {step3done ? <button type="button" className="btn btn-primary-2 sw-btn-next" onClick={() => setWizardStep(3)} disabled={!step3done}>Далі</button> : null}
+                  {step3done ? <button type="button" className="btn btn-primary-2 sw-btn-next" onClick={() => setWizardStep(3)} disabled={!step3done}>{lang === 'uk' ? "Далі" : "Next"}</button> : null}
                 </div>
                 <div className="text-center">
                   <p><small>{lang === 'uk' ? "Усі ціни вказані в Канадських Доларах (CAD)" : "All prices are listed in Canadian Dollars (CAD)"}</small></p>
@@ -436,7 +436,7 @@ function DonateForm(props: DonateFormProps) {
 
 
         </div>
-        <div id="step-4" className={wizardStep == 3 ? "active tab-pane step-content" : "tab-pane step-content"}>
+        <div id="step-4" className={wizardStep === 3 ? "active tab-pane step-content" : "tab-pane step-content"}>
           <div className="row justify-content-around o-hidden o-lg-visible">
             <div className="col-xl-4 col-lg-5 col-md-6" data-aos="fade-left">
               <div className="card card-icon-3 hover-shadow-3d rotate-right">
