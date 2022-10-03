@@ -349,7 +349,7 @@ function DonateForm(props: DonateFormProps) {
                         {lang === 'uk' ? (
                           <label htmlFor="register-socks">🥾 {itemsExtraBoots > 0 ? <><strong>Взуття</strong> для ЗСУ</> : <>Додати <strong>ще взуття</strong> для ЗСУ?</>} <br /><small>Одна пара військового взуття <a href="https://www.patriboots.com.ua/shop/otaman-khaki-nu/" target="_blank">PatriBoots Otaman</a> $60</small></label>
                         ) : (
-                          <label htmlFor="register-socks">🥾 {itemsExtraBoots > 0 ? <><strong>Boots</strong> the Armed Forces of Ukraine </> : <>Add <strong>more boots</strong> for the Armed Forces of Ukraine?</>} <br /><small>One pair of military boots <a href="https://www.patriboots.com.ua/shop/otaman-khaki-nu/" target="_blank">PatriBoots Otaman</a> is $60</small></label>
+                          <label htmlFor="register-socks">🥾 {itemsExtraBoots > 0 ? <><strong>Boots</strong> for the Armed Forces of Ukraine </> : <>Add <strong>more boots</strong> for the Armed Forces of Ukraine?</>} <br /><small>One pair of military boots <a href="https://www.patriboots.com.ua/shop/otaman-khaki-nu/" target="_blank">PatriBoots Otaman</a> is $60</small></label>
                         )}
                         <input type="range" className="custom-range" id="register-socks" min={0} max={10} value={itemsExtraBoots} onChange={(e) => setItemsExtraBoots(parseInt(e.target.value))} />
                       </div>
@@ -375,7 +375,7 @@ function DonateForm(props: DonateFormProps) {
                         <p>🧦 {itemsSocks > 0 ? <><strong>Військові шкарпетки</strong> для ЗСУ</> : <>Додати <strong>військові шкарпетки</strong> для ЗСУ?</>} <br /><small>Виробник професійних військових шкарпеток <a href="https://covertthreads.com" target="_blank">Covert Threads (USA)</a> підтримує Україну і надає нам суттєву знижку (по собівартості). Одна пара якісних шкарпеток з доставкою $20</small></p>
 
                       ) : (
-                        <p>🧦 {itemsSocks > 0 ? <><strong>Military socks</strong> the Armed Forces of Ukraine</> : <>Add <strong>military socks</strong> для the Armed Forces of Ukraine?</>} <br /><small>Manufacturer of professional military socks <a href="https://covertthreads.com" target="_blank">Covert Threads (USA)</a> supports Ukraine and offered us considerable discount (at cost). A pair of quality socks with delivery is $20</small></p>
+                        <p>🧦 {itemsSocks > 0 ? <><strong>Military socks</strong> for the Armed Forces of Ukraine</> : <>Add <strong>military socks</strong> for the Armed Forces of Ukraine?</>} <br /><small>Manufacturer of professional military socks <a href="https://covertthreads.com" target="_blank">Covert Threads (USA)</a> supports Ukraine and offered us considerable discount (at cost). A pair of quality socks with delivery is $20</small></p>
                       )}
                       <div>
                         <input type="range" className="custom-range" id="register-socks" min={0} max={10} value={itemsSocks} onChange={(e) => setItemsSocks(parseInt(e.target.value))} />
