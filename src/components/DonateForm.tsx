@@ -167,8 +167,7 @@ function DonateForm(props: DonateFormProps) {
               <div className="col-xl-6 col-lg-6 col-md-6" data-aos="fade-left">
                 <h3 className="h2">Registration</h3>
                 <p className="lead">
-                  100% of raised funds from the registrations to #RunForUkraine - Give Boots to  Defenders will be directed towards the purchasing of the winter military boots for Ukrainian defenders.
-
+                  100% of raised funds from registrations for the #RunForUkraine - Give Boots to Defenders campaign will be directed towards the purchasing of winter military boots for Ukrainian defenders.
                 </p>
                 <p className="lead">
                   The starting registration fee is <strong>60 CAD</strong>, which is the exact amount needed for one pair of military boots made in Ukraine. If you wish to help Ukrainian defenders even more - add to your cart more boots and warm socks.
