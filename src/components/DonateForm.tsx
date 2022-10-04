@@ -148,7 +148,7 @@ function DonateForm(props: DonateFormProps) {
 
           <div className="row justify-content-around o-hidden o-lg-visible">
             {lang === 'uk' ? (
-              <div className="col-xl-6 col-lg-6 col-md-6" data-aos="fade-left">
+              <div className="col-xl-6 col-lg-6 col-md-6">
                 <h3 className="h2">Реєстрація</h3>
                 <p className="lead">
                   100% коштів від реєстрації на “#RunForUkraine - Give Boots to Defenders” будуть спрямовані на закупівлю зимового взуття для українських захисників.
@@ -164,7 +164,7 @@ function DonateForm(props: DonateFormProps) {
                 </p>
               </div>
             ) : (
-              <div className="col-xl-6 col-lg-6 col-md-6" data-aos="fade-left">
+              <div className="col-xl-6 col-lg-6 col-md-6">
                 <h3 className="h2">Registration</h3>
                 <p className="lead">
                   100% of raised funds from registrations for the #RunForUkraine - Give Boots to Defenders campaign will be directed towards the purchasing of winter military boots for Ukrainian defenders.
@@ -187,7 +187,7 @@ function DonateForm(props: DonateFormProps) {
                 </p>
               </div>
             )}
-            <div className="col-xl-5 col-md-6 mb-4 mb-md-0" data-aos="fade">
+            <div className="col-xl-5 col-md-6 mb-4 mb-md-0">
               <div className="form-group">
                 <label htmlFor="register-name">{lang === 'uk' ? "Імʼя" : "Name"}</label>
                 <input
@@ -219,7 +219,7 @@ function DonateForm(props: DonateFormProps) {
         <div id="step-2" className={wizardStep === 1 ? "active tab-pane step-content" : "tab-pane step-content"}>
 
           <div className="row justify-content-around o-hidden o-lg-visible">
-            <div className="col-xl-6 col-lg-6 col-md-6" data-aos="fade-left">
+            <div className="col-xl-6 col-lg-6 col-md-6">
               <p className="lead">
                 {lang === 'uk' ? (
                   "Кожен з учасників, зареєстрованих в пробізі, отримає унікальну медаль на вказану адресу протягом 4 тижнів після реєстрації."
@@ -229,7 +229,7 @@ function DonateForm(props: DonateFormProps) {
               </p>
               <img src="assets/photos/medal-front.png" alt="Image" className="rounded"></img>
             </div>
-            <div className="col-xl-5 col-md-6 mb-4 mb-md-0" data-aos="fade">
+            <div className="col-xl-5 col-md-6 mb-4 mb-md-0">
               <div className="form-group">
                 <label htmlFor="register-address-country">{lang === 'uk' ? "Поштові Деталі" : "Shipping Details"}</label>
                 <select
@@ -322,11 +322,11 @@ function DonateForm(props: DonateFormProps) {
         <div id="step-3" className={wizardStep === 2 ? "active tab-pane step-content" : "tab-pane step-content"}>
 
           <div className="row justify-content-around o-hidden o-lg-visible">
-            <div className="col-xl-4 col-lg-5 col-md-6" data-aos="fade-left">
+            <div className="col-xl-4 col-lg-5 col-md-6">
 
               <img src="assets/products/boots-and-socks5.jpg" alt="Image" className="rounded"></img>
             </div>
-            <div className="col-xl-6 col-md-6 mb-4 mb-md-0" data-aos="fade">
+            <div className="col-xl-6 col-md-6 mb-4 mb-md-0">
 
               <table className="table table-hover">
                 <tbody>
@@ -437,7 +437,7 @@ function DonateForm(props: DonateFormProps) {
         </div>
         <div id="step-4" className={wizardStep === 3 ? "active tab-pane step-content" : "tab-pane step-content"}>
           <div className="row justify-content-around o-hidden o-lg-visible">
-            <div className="col-xl-4 col-lg-5 col-md-6" data-aos="fade-left">
+            <div className="col-xl-4 col-lg-5 col-md-6">
               <div className="card card-icon-3 hover-shadow-3d rotate-right">
                 <img src="assets/products/tee-promo.jpg" alt="Run for Ukraine t-shirt" className="card-img-top"></img>
 
@@ -474,7 +474,7 @@ function DonateForm(props: DonateFormProps) {
                 </div>
               </div>
             </div>
-            <div className="col-xl-6 col-md-6 mb-4 mb-md-0" data-aos="fade">
+            <div className="col-xl-6 col-md-6 mb-4 mb-md-0">
               <h3 className="h3">{lang === 'uk' ? "Підсумок реєстрації" : "Registration summary"}</h3>
               <table className="table table-hover">
                 <tbody>
