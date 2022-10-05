@@ -27,7 +27,7 @@ function DonateForm(props: DonateFormProps) {
   const [addressLine1, setAddressLine1] = useState("");
   const [addressLine2, setAddressLine2] = useState("");
   const [addressCity, setAddressCity] = useState("");
-  const [addressProvince, setAddressProvince]: [string | undefined, any] = useState(undefined);
+  const [addressProvince, setAddressProvince] = useState("CA-AB");
   const [addressCountry, setAddressCountry] = useState("CA");
   const [addressCode, setAddressCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
