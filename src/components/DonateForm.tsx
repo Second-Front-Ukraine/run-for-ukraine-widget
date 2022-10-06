@@ -18,6 +18,9 @@ const TEE_LARGE_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2OD
 const TEE_MEDIUM_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzI="
 const TEE_SMALL_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzE="
 
+const isValidEmail = (email: string) => {
+  return /\S+@\S+\.\S+/.test(email);
+}
 
 function DonateForm(props: DonateFormProps) {
   const lang = props.lang || 'en';
@@ -39,13 +42,15 @@ function DonateForm(props: DonateFormProps) {
   const [itemsTeeMedium, setItemsTeeMedium] = useState(0);
   const [itemsTeeLarge, setItemsTeeLarge] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const provinceOptions = COUNTRIES[addressCountry as keyof typeof COUNTRIES].provinces;
 
   const totalStep3 = 60 + itemsExtraBoots * 60 + itemsSocks * 20;
   const total = Math.round((totalStep3 + (itemsTeeSmall + itemsTeeMedium + itemsTeeLarge) * 39.99 + 10) * 100) / 100;
 
-  const step1done = !!email && !!fullName;
+  const emailIsValid = isValidEmail(email)
+  const step1done = !!email && !!fullName && emailIsValid;
   const step2done = step1done && !!addressLine1 && !!addressCity && !!addressCountry && !!addressProvince && !!addressCountry && !!phoneNumber;
   const step3done = step1done && step2done;
   const step4done = step3done;
@@ -105,6 +110,8 @@ function DonateForm(props: DonateFormProps) {
       };
       wave.post("/tab", inputData).then((result) => {
         props.onTabCreated(result.data);
+      }).catch((e) => {
+        setError(JSON.stringify(e));
       }).finally(() => {
         setLoading(false);
       });
@@ -203,7 +210,7 @@ function DonateForm(props: DonateFormProps) {
               <div className="form-group">
                 <label htmlFor="register-email">{lang === 'uk' ? "Адреса Електронної Пошти" : "Email"}</label>
                 <input
-                  type="text"
+                  type="email"
                   name="email"
                   id="register-email"
                   className="form-control form-control-lg"
@@ -211,6 +218,9 @@ function DonateForm(props: DonateFormProps) {
                   placeholder="you@yoursite.com"
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                {(!emailIsValid && !!email) ? (
+                <small className="text-danger">{lang === 'uk' ? "Будь-ласка введіть дійсну поштову адресу" : "Please enter valid email"}</small>
+                ): null}
               </div>
               {step1done ? <button type="button" className="btn btn-primary-2 sw-btn-next" onClick={() => setWizardStep(1)} disabled={!step1done}>{lang === 'uk' ? "Далі" : "Next"}</button> : null}
             </div>
@@ -630,6 +640,9 @@ function DonateForm(props: DonateFormProps) {
                 <div className='form-group text-center'>
                   <button type="button" onClick={handleSubmit} className="btn btn-lg btn-primary btn-block mb-2" disabled={loading}>{lang === 'uk' ? "Завершити реєстрацію" : "Complete registration"}</button>
                 </div>
+                {error ? (
+                  <p>{error}</p>
+                ): null}
                 <div className="invoice-insights__payments-banner">
                   <div className="icon-override wv-icon--payment-method--small wv-icon--payment-method--bank-payment"></div>
                   <div className="icon-override wv-icon--payment-method--small wv-icon--payment-method--cc-amex"></div>
