@@ -111,7 +111,8 @@ function DonateForm(props: DonateFormProps) {
       wave.post("/tab", inputData).then((result) => {
         props.onTabCreated(result.data);
       }).catch((e) => {
-        setError(JSON.stringify(e));
+        console.log(e)
+        setError("There was some issue with your request. Please check all entered fields again and if the issue persists, contact help@secondfrontukraine.com.");
       }).finally(() => {
         setLoading(false);
       });
@@ -641,7 +642,7 @@ function DonateForm(props: DonateFormProps) {
                   <button type="button" onClick={handleSubmit} className="btn btn-lg btn-primary btn-block mb-2" disabled={loading}>{lang === 'uk' ? "Завершити реєстрацію" : "Complete registration"}</button>
                 </div>
                 {error ? (
-                  <p>{error}</p>
+                  <p className="text-danger">{error}</p>
                 ): null}
                 <div className="invoice-insights__payments-banner">
                   <div className="icon-override wv-icon--payment-method--small wv-icon--payment-method--bank-payment"></div>
