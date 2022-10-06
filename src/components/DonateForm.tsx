@@ -112,7 +112,7 @@ function DonateForm(props: DonateFormProps) {
         props.onTabCreated(result.data);
       }).catch((e) => {
         console.log(e)
-        setError("There was some issue with your request. Please check all entered fields again and if the issue persists, contact help@secondfrontukraine.com.");
+        setError("There was some issue with your request. Please check your internet connection, restart the page ang try again. If the issue persists, contact help@secondfrontukraine.com.");
       }).finally(() => {
         setLoading(false);
       });
