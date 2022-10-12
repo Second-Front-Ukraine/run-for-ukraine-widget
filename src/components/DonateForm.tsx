@@ -112,7 +112,7 @@ function DonateForm(props: DonateFormProps) {
         props.onTabCreated(result.data);
       }).catch((e) => {
         console.log(e)
-        setError("There was some issue with your request. Please check your internet connection, restart the page ang try again. If the issue persists, contact help@secondfrontukraine.com.");
+        setError("There was some issue with your request. Please check your internet connection, restart the page and try again. If the issue persists, contact help@secondfrontukraine.com.");
       }).finally(() => {
         setLoading(false);
       });
@@ -137,6 +137,13 @@ function DonateForm(props: DonateFormProps) {
   const clearLargeTees = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setItemsTeeLarge(0);
+  }
+
+  const handleSetCountry = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault();
+    setAddressCountry(event.target.value);
+    // Set province to the first in the list to prevent siletly old values;
+    setAddressProvince(COUNTRIES[event.target.value as keyof typeof COUNTRIES].provinces[0].code);
   }
 
   return (
@@ -248,7 +255,7 @@ function DonateForm(props: DonateFormProps) {
                   id="register-address-country"
                   value={addressCountry}
                   placeholder={"Country"}
-                  onChange={(e) => setAddressCountry(e.target.value)}
+                  onChange={handleSetCountry}
                 >
                   {Object.entries(COUNTRIES as { [code: string]: { code: string, name: string } }).map(
                     ([key, country], i) => {
