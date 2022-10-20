@@ -67,8 +67,8 @@ function DonateForm(props: DonateFormProps) {
         shipping_details: {
           'addressLine1': addressLine1,
           'addressLine2': addressLine2,
-          'city': addressCity,
-          'provinceCode': addressProvince,
+          'city': `${addressCity}, ${addressProvince}`,
+          'provinceCode': '',  // Having issues with API accepting some provinces (in particular Mexico and Singapore). So far it is believed an issue with Wave backend.
           'countryCode': addressCountry,
           'postalCode': addressCode,
           'phone': phoneNumber,
@@ -112,7 +112,7 @@ function DonateForm(props: DonateFormProps) {
         props.onTabCreated(result.data);
       }).catch((e) => {
         console.log(e)
-        setError("There was some issue with your request. Please check your internet connection, restart the page and try again. If the issue persists, contact help@secondfrontukraine.com.");
+        setError(JSON.stringify(e));
       }).finally(() => {
         setLoading(false);
       });
