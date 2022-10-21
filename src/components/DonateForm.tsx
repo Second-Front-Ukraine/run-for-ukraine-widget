@@ -204,7 +204,7 @@ function DonateForm(props: DonateFormProps) {
             )}
             <div className="col-xl-5 col-md-6 mb-4 mb-md-0">
               <div className="form-group">
-                <label htmlFor="register-name">{lang === 'uk' ? "Імʼя" : "Name"}</label>
+                <label htmlFor="register-name">{lang === 'uk' ? "Повне імʼя" : "Full name"}</label>
                 <input
                   type="text"
                   name="fullName"
