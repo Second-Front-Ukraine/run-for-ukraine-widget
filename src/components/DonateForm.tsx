@@ -514,7 +514,7 @@ function DonateForm(props: DonateFormProps) {
                           <li>100% Поліестер</li>
                           <li>Дизайн Антона Масалова</li>
                           <li>Колір: жовтий або блакитний (новий)</li>
-                          <li>Кошти зібрані за футболки направлені на потреби ЗСУ (деталі на <a href="https://secondfrontukraine.com">secondfrontukraine.com</a>)</li>
+                          <li>Зібрані кошти направлені на потреби ЗСУ (деталі на <a href="https://secondfrontukraine.com">secondfrontukraine.com</a>)</li>
                         </ul>
                       </p>
                       <p>Для розмірної таблиці <a href="https://runforukraine.ca/assets/products/tee-sizing-chart.jpg" target={"_blank"}>клацніть тут</a></p>
