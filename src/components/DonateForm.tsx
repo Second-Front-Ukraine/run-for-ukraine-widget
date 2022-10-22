@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import internal from 'stream';
 import { wave } from '../axiosInstances';
 import { COUNTRIES } from '../geography';
 
@@ -14,9 +13,12 @@ const SOCKS_PRODUCT_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OT
 const BOOTS_PRODUCT_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNTU1MjI="
 const DELIVERY_CANADA_PRODUCT_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIyNzI1Mjg="
 const DELIVERY_OUTSIDE_CANADA_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNTU4Mjc="
-const TEE_LARGE_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzU="
-const TEE_MEDIUM_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzI="
-const TEE_SMALL_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzE="
+const TEE_YELLOW_L_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzU="
+const TEE_YELLOW_M_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzI="
+const TEE_YELLOW_S_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzE="
+const TEE_BLUE_L_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODMyMTU2ODk="
+const TEE_BLUE_M_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODMyMTU2ODQ="
+const TEE_BLUE_S_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODMyMTU2Nzk="
 
 const isValidEmail = (email: string) => {
   return /\S+@\S+\.\S+/.test(email);
@@ -38,16 +40,19 @@ function DonateForm(props: DonateFormProps) {
   const [addNote, setAddNote] = useState(false);
   const [itemsSocks, setItemsSocks] = useState(1);
   const [itemsExtraBoots, setItemsExtraBoots] = useState(0);
-  const [itemsTeeSmall, setItemsTeeSmall] = useState(0);
-  const [itemsTeeMedium, setItemsTeeMedium] = useState(0);
-  const [itemsTeeLarge, setItemsTeeLarge] = useState(0);
+  const [itemsTeeYellowS, setItemsTeeYellowS] = useState(0);
+  const [itemsTeeYellowM, setItemsTeeYellowM] = useState(0);
+  const [itemsTeeYellowL, setItemsTeeYellowL] = useState(0);
+  const [itemsTeeBlueS, setItemsTeeBlueS] = useState(0);
+  const [itemsTeeBlueM, setItemsTeeBlueM] = useState(0);
+  const [itemsTeeBlueL, setItemsTeeBlueL] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const provinceOptions = COUNTRIES[addressCountry as keyof typeof COUNTRIES].provinces;
 
   const totalStep3 = 60 + itemsExtraBoots * 60 + itemsSocks * 20;
-  const total = Math.round((totalStep3 + (itemsTeeSmall + itemsTeeMedium + itemsTeeLarge) * 39.99 + 10) * 100) / 100;
+  const total = Math.round((totalStep3 + (itemsTeeYellowS + itemsTeeYellowM + itemsTeeYellowL + itemsTeeBlueS + itemsTeeBlueM + itemsTeeBlueL) * 39.99 + 10) * 100) / 100;
 
   const emailIsValid = isValidEmail(email)
   const step1done = !!email && !!fullName && emailIsValid;
@@ -86,16 +91,28 @@ function DonateForm(props: DonateFormProps) {
             'quantity': itemsSocks,
             'unitPrice': 2000,
           },
-          [TEE_SMALL_ID]: {
-            'quantity': itemsTeeSmall,
+          [TEE_YELLOW_S_ID]: {
+            'quantity': itemsTeeYellowS,
             'unitPrice': 3999,
           },
-          [TEE_MEDIUM_ID]: {
-            'quantity': itemsTeeMedium,
+          [TEE_YELLOW_M_ID]: {
+            'quantity': itemsTeeYellowM,
             'unitPrice': 3999,
           },
-          [TEE_LARGE_ID]: {
-            'quantity': itemsTeeLarge,
+          [TEE_YELLOW_L_ID]: {
+            'quantity': itemsTeeYellowL,
+            'unitPrice': 3999,
+          },
+          [TEE_BLUE_S_ID]: {
+            'quantity': itemsTeeBlueS,
+            'unitPrice': 3999,
+          },
+          [TEE_BLUE_M_ID]: {
+            'quantity': itemsTeeBlueM,
+            'unitPrice': 3999,
+          },
+          [TEE_BLUE_L_ID]: {
+            'quantity': itemsTeeBlueL,
             'unitPrice': 3999,
           },
           [DELIVERY_CANADA_PRODUCT_ID]: {
@@ -124,19 +141,34 @@ function DonateForm(props: DonateFormProps) {
     setAddNote(!addNote);
   }
 
-  const clearSmallTees = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const clearYellowS = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    setItemsTeeSmall(0);
+    setItemsTeeYellowS(0);
   }
 
-  const clearMediumTees = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const clearYellowM = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    setItemsTeeMedium(0);
+    setItemsTeeYellowM(0);
   }
 
-  const clearLargeTees = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const clearYellowL = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    setItemsTeeLarge(0);
+    setItemsTeeYellowL(0);
+  }
+
+  const clearBlueS = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setItemsTeeBlueS(0);
+  }
+
+  const clearBlueM = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setItemsTeeBlueM(0);
+  }
+
+  const clearBlueL = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setItemsTeeBlueL(0);
   }
 
   const handleSetCountry = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -457,37 +489,50 @@ function DonateForm(props: DonateFormProps) {
           <div className="row justify-content-around o-hidden o-lg-visible">
             <div className="col-xl-4 col-lg-5 col-md-6">
               <div className="card card-icon-3 hover-shadow-3d rotate-right">
-                <img src="assets/products/tee-promo.jpg" alt="Run for Ukraine t-shirt" className="card-img-top"></img>
+                <img src="assets/products/tee-promo-new.jpg" alt="Run for Ukraine t-shirt" className="card-img-top"></img>
 
                 <div className="card-body justify-content-between">
                   <h3>{lang === 'uk' ? "+ Футболка Run for Ukraine Унісекс за $39.99" : "+ Run for Ukraine Unisex Tee for $39.99"}</h3>
-                  <div className="mb-2 d-block text-center">
-                    <button type="button" className="m-1 btn btn-sm btn-primary-2" onClick={() => setItemsTeeSmall(itemsTeeSmall + 1)}>+ S</button>
-                    <button type="button" className="m-1 btn btn-sm btn-primary-2" onClick={() => setItemsTeeMedium(itemsTeeMedium + 1)}>+ M</button>
-                    <button type="button" className="m-1 btn btn-sm btn-primary-2" onClick={() => setItemsTeeLarge(itemsTeeLarge + 1)}>+ L</button>
+                  <div className="mb-2 d-block text-right">
+                    <small>{lang === 'uk' ? "Жовта" : "Yellow"}</small>
+                    <button type="button" className="m-1 btn btn-sm btn-primary-2 text-primary" onClick={() => setItemsTeeYellowS(itemsTeeYellowS + 1)}>+ S</button>
+                    <button type="button" className="m-1 btn btn-sm btn-primary-2 text-primary" onClick={() => setItemsTeeYellowM(itemsTeeYellowM + 1)}>+ M</button>
+                    <button type="button" className="m-1 btn btn-sm btn-primary-2 text-primary" onClick={() => setItemsTeeYellowL(itemsTeeYellowL + 1)}>+ L</button>
+                  </div>
+                  <div className="mb-2 d-block text-right">
+                    <small><sup className="text-primary">NEW</sup>&nbsp;{lang === 'uk' ? "Блакитна" : "Blue"}</small>
+                    <button type="button" className="m-1 btn btn-sm btn-primary text-primary-2" onClick={() => setItemsTeeBlueS(itemsTeeBlueS + 1)}>+ S</button>
+                    <button type="button" className="m-1 btn btn-sm btn-primary text-primary-2" onClick={() => setItemsTeeBlueM(itemsTeeBlueM + 1)}>+ M</button>
+                    <button type="button" className="m-1 btn btn-sm btn-primary text-primary-2" onClick={() => setItemsTeeBlueL(itemsTeeBlueL + 1)}>+ L</button>
                   </div>
                   {lang === 'uk' ? (
-                    <p className="">
-                      Добавте знакову футболку <em>#RunForUkraine</em>
-                      <ul>
-                        <li><a href="https://shop.secondfrontukraine.com" target="_blank">Офіційний мерчандайз від Second Front</a></li>
-                        <li>100% Поліестер</li>
-                        <li>Дизайн Антона Маслова</li>
-                        <li>Колір: жовтий</li>
-                        <li>Кошти зібрані за футболки направлені на потреби ЗСУ (звіт закупівель та відправок можна знайти на <a href="https://secondfrontukraine.com">secondfrontukraine.com</a>)</li>
-                      </ul>
-                    </p>
+                    <div>
+                      <p className="">
+                        Добавте знакову футболку <em>#RunForUkraine</em>
+                        <ul>
+                          <li><a href="https://shop.secondfrontukraine.com" target="_blank">Офіційний мерчандайз від Second Front</a></li>
+                          <li>100% Поліестер</li>
+                          <li>Дизайн Антона Масалова</li>
+                          <li>Колір: жовтий або блакитний (новий)</li>
+                          <li>Кошти зібрані за футболки направлені на потреби ЗСУ (деталі на <a href="https://secondfrontukraine.com">secondfrontukraine.com</a>)</li>
+                        </ul>
+                      </p>
+                      <p>Для розмірної таблиці <a href="https://runforukraine.ca/assets/products/tee-sizing-chart.jpg" target={"_blank"}>клацніть тут</a></p>
+                    </div>
                   ) : (
-                    <p className="">
-                      Opt in for an iconic <em>#RunForUkraine</em> t-shirt
-                      <ul>
-                        <li><a href="https://shop.secondfrontukraine.com" target="_blank">Official Second Front Merch</a></li>
-                        <li>100% Polyester</li>
-                        <li>Design by Anton Masalov</li>
-                        <li>Color: yellow</li>
-                        <li>T-Shirt profits directed towards needs of Ukrainian defenders (you'll find our past report on <a href="https://secondfrontukraine.com">secondfrontukraine.com</a>)</li>
-                      </ul>
-                    </p>
+                    <div>
+                      <p className="">
+                        Opt in for an iconic <em>#RunForUkraine</em> t-shirt
+                        <ul>
+                          <li><a href="https://shop.secondfrontukraine.com" target="_blank">Official Second Front Merch</a></li>
+                          <li>100% Polyester</li>
+                          <li>Design by Anton Masalov</li>
+                          <li>Color: yellow or blue (new)</li>
+                          <li>T-Shirt profits directed towards needs of Ukrainian defenders (more details at <a href="https://secondfrontukraine.com">secondfrontukraine.com</a>)</li>
+                        </ul>
+                      </p>
+                      <p><a href="https://runforukraine.ca/assets/products/tee-sizing-chart.jpg" target={"_blank"}>Click here</a> to see sizing chart</p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -549,72 +594,140 @@ function DonateForm(props: DonateFormProps) {
                     </tr>
                   ) : null}
 
-                  {itemsTeeSmall > 0 ? (
+                  {itemsTeeYellowS > 0 ? (
                     <tr>
                       {lang === 'uk' ? (
                         <td>
                           <p>
-                            👕 <strong>Бігова футболка</strong> #RunForUkraine (Small) {itemsTeeSmall > 1 ? `x${itemsTeeSmall}` : ""}
+                            👕 <strong>Бігова футболка</strong> #RunForUkraine Жовта (Small) {itemsTeeYellowS > 1 ? `x${itemsTeeYellowS}` : ""}
                             <br /> <em>(Для Вас)</em>
-                            <br /> <small><a href="#" onClick={clearSmallTees}>Скасувати</a></small>
+                            <br /> <small><a href="#" onClick={clearYellowS}>Скасувати</a></small>
                           </p>
                         </td>
                       ) : (
                         <td>
                           <p>
-                            👕 <strong>T-Shirt</strong> #RunForUkraine (Small) {itemsTeeSmall > 1 ? `x${itemsTeeSmall}` : ""}
+                            👕 <strong>T-Shirt</strong> #RunForUkraine Yellow (Small) {itemsTeeYellowS > 1 ? `x${itemsTeeYellowS}` : ""}
                             <br /> <em>(For you)</em>
-                            <br /> <small><a href="#" onClick={clearSmallTees}>Remove</a></small>
+                            <br /> <small><a href="#" onClick={clearYellowS}>Remove</a></small>
                           </p>
                         </td>
                       )}
-                      <td>${itemsTeeSmall * 39.99}</td>
+                      <td>${itemsTeeYellowS * 39.99}</td>
                     </tr>
                   ) : null}
-                  {itemsTeeMedium > 0 ? (
+                  {itemsTeeBlueS > 0 ? (
                     <tr>
                       {lang === 'uk' ? (
                         <td>
                           <p>
-                            👕 <strong>Бігова футболка</strong> #RunForUkraine (Medium) {itemsTeeMedium > 1 ? `x${itemsTeeMedium}` : ""}
+                            👕 <strong>Бігова футболка</strong> #RunForUkraine Блакитна (Small) {itemsTeeBlueS > 1 ? `x${itemsTeeBlueS}` : ""}
                             <br /> <em>(Для Вас)</em>
-                            <br /> <small><a href="#" onClick={clearMediumTees}>Скасувати</a></small>
+                            <br /> <small><a href="#" onClick={clearBlueS}>Скасувати</a></small>
                           </p>
                         </td>
                       ) : (
                         <td>
                           <p>
-                            👕 <strong>T-Shirt</strong> #RunForUkraine (Medium) {itemsTeeMedium > 1 ? `x${itemsTeeMedium}` : ""}
+                            👕 <strong>T-Shirt</strong> #RunForUkraine Blue (Small) {itemsTeeBlueS > 1 ? `x${itemsTeeBlueS}` : ""}
                             <br /> <em>(For you)</em>
-                            <br /> <small><a href="#" onClick={clearMediumTees}>Remove</a></small>
+                            <br /> <small><a href="#" onClick={clearBlueS}>Remove</a></small>
+                          </p>
+                        </td>
+                      )}
+                      <td>${itemsTeeBlueS * 39.99}</td>
+                    </tr>
+                  ) : null}
+                  {itemsTeeYellowM > 0 ? (
+                    <tr>
+                      {lang === 'uk' ? (
+                        <td>
+                          <p>
+                            👕 <strong>Бігова футболка</strong> #RunForUkraine Жовта (Medium) {itemsTeeYellowM > 1 ? `x${itemsTeeYellowM}` : ""}
+                            <br /> <em>(Для Вас)</em>
+                            <br /> <small><a href="#" onClick={clearYellowM}>Скасувати</a></small>
+                          </p>
+                        </td>
+                      ) : (
+                        <td>
+                          <p>
+                            👕 <strong>T-Shirt</strong> #RunForUkraine Yellow (Medium) {itemsTeeYellowM > 1 ? `x${itemsTeeYellowM}` : ""}
+                            <br /> <em>(For you)</em>
+                            <br /> <small><a href="#" onClick={clearYellowM}>Remove</a></small>
                           </p>
                         </td>
                       )}
                       <td>
-                        ${itemsTeeMedium * 39.99}
+                        ${itemsTeeYellowM * 39.99}
                       </td>
                     </tr>
                   ) : null}
-                  {itemsTeeLarge > 0 ? (
+                  {itemsTeeBlueM > 0 ? (
                     <tr>
                       {lang === 'uk' ? (
                         <td>
                           <p>
-                            👕 <strong>Бігова футболка</strong> #RunForUkraine (Large) {itemsTeeLarge > 1 ? `x${itemsTeeLarge}` : ""}
+                            👕 <strong>Бігова футболка</strong> #RunForUkraine Блакитна (Medium) {itemsTeeBlueM > 1 ? `x${itemsTeeBlueM}` : ""}
                             <br /> <em>(Для Вас)</em>
-                            <br /> <small><a href="#" onClick={clearLargeTees}>Скасувати</a></small>
+                            <br /> <small><a href="#" onClick={clearBlueM}>Скасувати</a></small>
                           </p>
                         </td>
                       ) : (
                         <td>
                           <p>
-                            👕 <strong>T-Shirt</strong> #RunForUkraine (Large) {itemsTeeLarge > 1 ? `x${itemsTeeLarge}` : ""}
+                            👕 <strong>T-Shirt</strong> #RunForUkraine Blue (Medium) {itemsTeeBlueM > 1 ? `x${itemsTeeBlueM}` : ""}
                             <br /> <em>(For you)</em>
-                            <br /> <small><a href="#" onClick={clearLargeTees}>Remove</a></small>
+                            <br /> <small><a href="#" onClick={clearBlueM}>Remove</a></small>
                           </p>
                         </td>
                       )}
-                      <td>${itemsTeeLarge * 39.99}</td>
+                      <td>
+                        ${itemsTeeBlueM * 39.99}
+                      </td>
+                    </tr>
+                  ) : null}
+                  {itemsTeeYellowL > 0 ? (
+                    <tr>
+                      {lang === 'uk' ? (
+                        <td>
+                          <p>
+                            👕 <strong>Бігова футболка</strong> #RunForUkraine Жовта (Large) {itemsTeeYellowL > 1 ? `x${itemsTeeYellowL}` : ""}
+                            <br /> <em>(Для Вас)</em>
+                            <br /> <small><a href="#" onClick={clearYellowL}>Скасувати</a></small>
+                          </p>
+                        </td>
+                      ) : (
+                        <td>
+                          <p>
+                            👕 <strong>T-Shirt</strong> #RunForUkraine Yellow (Large) {itemsTeeYellowL > 1 ? `x${itemsTeeYellowL}` : ""}
+                            <br /> <em>(For you)</em>
+                            <br /> <small><a href="#" onClick={clearYellowL}>Remove</a></small>
+                          </p>
+                        </td>
+                      )}
+                      <td>${itemsTeeYellowL * 39.99}</td>
+                    </tr>
+                  ) : null}
+                  {itemsTeeBlueL > 0 ? (
+                    <tr>
+                      {lang === 'uk' ? (
+                        <td>
+                          <p>
+                            👕 <strong>Бігова футболка</strong> #RunForUkraine Блакитна (Large) {itemsTeeBlueL > 1 ? `x${itemsTeeBlueL}` : ""}
+                            <br /> <em>(Для Вас)</em>
+                            <br /> <small><a href="#" onClick={clearBlueL}>Скасувати</a></small>
+                          </p>
+                        </td>
+                      ) : (
+                        <td>
+                          <p>
+                            👕 <strong>T-Shirt</strong> #RunForUkraine Blue (Large) {itemsTeeBlueL > 1 ? `x${itemsTeeBlueL}` : ""}
+                            <br /> <em>(For you)</em>
+                            <br /> <small><a href="#" onClick={clearBlueL}>Remove</a></small>
+                          </p>
+                        </td>
+                      )}
+                      <td>${itemsTeeBlueL * 39.99}</td>
                     </tr>
                   ) : null}
                   {addressCountry === "CA" ? (
