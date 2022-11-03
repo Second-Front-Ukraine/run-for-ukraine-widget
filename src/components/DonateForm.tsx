@@ -16,9 +16,11 @@ const DELIVERY_OUTSIDE_CANADA_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgt
 const TEE_YELLOW_L_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzU="
 const TEE_YELLOW_M_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzI="
 const TEE_YELLOW_S_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODIzNzM4NzE="
+const TEE_YELLOW_XS_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODM3MjY3NTM=" 
 const TEE_BLUE_L_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODMyMTU2ODk="
 const TEE_BLUE_M_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODMyMTU2ODQ="
 const TEE_BLUE_S_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODMyMTU2Nzk="
+const TEE_BLUE_XS_ID = "QnVzaW5lc3M6YWU4YTgxYjYtZWI4OS00MDRhLWExNzgtYzJmYmM4OTc2ODIzO1Byb2R1Y3Q6ODM3MjY3OTY="
 
 const isValidEmail = (email: string) => {
   return /\S+@\S+\.\S+/.test(email);
@@ -40,9 +42,11 @@ function DonateForm(props: DonateFormProps) {
   const [addNote, setAddNote] = useState(false);
   const [itemsSocks, setItemsSocks] = useState(1);
   const [itemsExtraBoots, setItemsExtraBoots] = useState(0);
+  const [itemsTeeYellowXS, setItemsTeeYellowXS] = useState(0);
   const [itemsTeeYellowS, setItemsTeeYellowS] = useState(0);
   const [itemsTeeYellowM, setItemsTeeYellowM] = useState(0);
   const [itemsTeeYellowL, setItemsTeeYellowL] = useState(0);
+  const [itemsTeeBlueXS, setItemsTeeBlueXS] = useState(0);
   const [itemsTeeBlueS, setItemsTeeBlueS] = useState(0);
   const [itemsTeeBlueM, setItemsTeeBlueM] = useState(0);
   const [itemsTeeBlueL, setItemsTeeBlueL] = useState(0);
@@ -52,7 +56,7 @@ function DonateForm(props: DonateFormProps) {
   const provinceOptions = COUNTRIES[addressCountry as keyof typeof COUNTRIES].provinces;
 
   const totalStep3 = 60 + itemsExtraBoots * 60 + itemsSocks * 20;
-  const total = Math.round((totalStep3 + (itemsTeeYellowS + itemsTeeYellowM + itemsTeeYellowL + itemsTeeBlueS + itemsTeeBlueM + itemsTeeBlueL) * 39.99 + 10) * 100) / 100;
+  const total = Math.round((totalStep3 + (itemsTeeYellowXS + itemsTeeYellowS + itemsTeeYellowM + itemsTeeYellowL + itemsTeeBlueXS + itemsTeeBlueS + itemsTeeBlueM + itemsTeeBlueL) * 39.99 + 10) * 100) / 100;
 
   const emailIsValid = isValidEmail(email)
   const step1done = !!email && !!fullName && emailIsValid;
@@ -91,6 +95,10 @@ function DonateForm(props: DonateFormProps) {
             'quantity': itemsSocks,
             'unitPrice': 2000,
           },
+          [TEE_YELLOW_XS_ID]: {
+            'quantity': itemsTeeYellowXS,
+            'unitPrice': 3999,
+          },
           [TEE_YELLOW_S_ID]: {
             'quantity': itemsTeeYellowS,
             'unitPrice': 3999,
@@ -101,6 +109,10 @@ function DonateForm(props: DonateFormProps) {
           },
           [TEE_YELLOW_L_ID]: {
             'quantity': itemsTeeYellowL,
+            'unitPrice': 3999,
+          },
+          [TEE_BLUE_XS_ID]: {
+            'quantity': itemsTeeBlueXS,
             'unitPrice': 3999,
           },
           [TEE_BLUE_S_ID]: {
@@ -141,6 +153,11 @@ function DonateForm(props: DonateFormProps) {
     setAddNote(!addNote);
   }
 
+  const clearYellowXS = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setItemsTeeYellowXS(0);
+  }
+
   const clearYellowS = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setItemsTeeYellowS(0);
@@ -154,6 +171,11 @@ function DonateForm(props: DonateFormProps) {
   const clearYellowL = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setItemsTeeYellowL(0);
+  }
+
+  const clearBlueXS = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setItemsTeeBlueXS(0);
   }
 
   const clearBlueS = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -493,14 +515,16 @@ function DonateForm(props: DonateFormProps) {
 
                 <div className="card-body justify-content-between">
                   <h3>{lang === 'uk' ? "+ Футболка Run for Ukraine Унісекс за $39.99" : "+ Run for Ukraine Unisex Tee for $39.99"}</h3>
-                  <div className="mb-2 d-block text-right">
-                    <small>{lang === 'uk' ? "Жовта" : "Yellow"}</small>
+                  <div className="mb-2 d-block">
+                    <small>{lang === 'uk' ? "Жовта" : "Yellow"}</small><br/>
+                    <button type="button" className="m-1 btn btn-sm btn-primary-2 text-primary" onClick={() => setItemsTeeYellowXS(itemsTeeYellowXS + 1)}>+ XS</button>
                     <button type="button" className="m-1 btn btn-sm btn-primary-2 text-primary" onClick={() => setItemsTeeYellowS(itemsTeeYellowS + 1)}>+ S</button>
                     <button type="button" className="m-1 btn btn-sm btn-primary-2 text-primary" onClick={() => setItemsTeeYellowM(itemsTeeYellowM + 1)}>+ M</button>
                     <button type="button" className="m-1 btn btn-sm btn-primary-2 text-primary" onClick={() => setItemsTeeYellowL(itemsTeeYellowL + 1)}>+ L</button>
                   </div>
-                  <div className="mb-2 d-block text-right">
-                    <small><sup className="text-primary">NEW</sup>&nbsp;{lang === 'uk' ? "Блакитна" : "Blue"}</small>
+                  <div className="mb-2 d-block">
+                    <small><sup className="text-primary">NEW</sup>&nbsp;{lang === 'uk' ? "Блакитна" : "Blue"}</small><br/>
+                    <button type="button" className="m-1 btn btn-sm btn-primary text-primary-2" onClick={() => setItemsTeeBlueXS(itemsTeeBlueXS + 1)}>+ XS</button>
                     <button type="button" className="m-1 btn btn-sm btn-primary text-primary-2" onClick={() => setItemsTeeBlueS(itemsTeeBlueS + 1)}>+ S</button>
                     <button type="button" className="m-1 btn btn-sm btn-primary text-primary-2" onClick={() => setItemsTeeBlueM(itemsTeeBlueM + 1)}>+ M</button>
                     <button type="button" className="m-1 btn btn-sm btn-primary text-primary-2" onClick={() => setItemsTeeBlueL(itemsTeeBlueL + 1)}>+ L</button>
@@ -594,6 +618,29 @@ function DonateForm(props: DonateFormProps) {
                     </tr>
                   ) : null}
 
+
+                  {itemsTeeYellowXS > 0 ? (
+                    <tr>
+                      {lang === 'uk' ? (
+                        <td>
+                          <p>
+                            👕 <strong>Бігова футболка</strong> #RunForUkraine Жовта (Extra Small) {itemsTeeYellowXS > 1 ? `x${itemsTeeYellowXS}` : ""}
+                            <br /> <em>(Для Вас)</em>
+                            <br /> <small><a href="#" onClick={clearYellowXS}>Скасувати</a></small>
+                          </p>
+                        </td>
+                      ) : (
+                        <td>
+                          <p>
+                            👕 <strong>T-Shirt</strong> #RunForUkraine Yellow (Extra Small) {itemsTeeYellowXS > 1 ? `x${itemsTeeYellowXS}` : ""}
+                            <br /> <em>(For you)</em>
+                            <br /> <small><a href="#" onClick={clearYellowXS}>Remove</a></small>
+                          </p>
+                        </td>
+                      )}
+                      <td>${itemsTeeYellowXS * 39.99}</td>
+                    </tr>
+                  ) : null}
                   {itemsTeeYellowS > 0 ? (
                     <tr>
                       {lang === 'uk' ? (
@@ -614,6 +661,28 @@ function DonateForm(props: DonateFormProps) {
                         </td>
                       )}
                       <td>${itemsTeeYellowS * 39.99}</td>
+                    </tr>
+                  ) : null}
+                  {itemsTeeBlueXS > 0 ? (
+                    <tr>
+                      {lang === 'uk' ? (
+                        <td>
+                          <p>
+                            👕 <strong>Бігова футболка</strong> #RunForUkraine Блакитна (Extra Small) {itemsTeeBlueXS > 1 ? `x${itemsTeeBlueXS}` : ""}
+                            <br /> <em>(Для Вас)</em>
+                            <br /> <small><a href="#" onClick={clearBlueXS}>Скасувати</a></small>
+                          </p>
+                        </td>
+                      ) : (
+                        <td>
+                          <p>
+                            👕 <strong>T-Shirt</strong> #RunForUkraine Blue (Extra Small) {itemsTeeBlueXS > 1 ? `x${itemsTeeBlueXS}` : ""}
+                            <br /> <em>(For you)</em>
+                            <br /> <small><a href="#" onClick={clearBlueXS}>Remove</a></small>
+                          </p>
+                        </td>
+                      )}
+                      <td>${itemsTeeBlueXS * 39.99}</td>
                     </tr>
                   ) : null}
                   {itemsTeeBlueS > 0 ? (
